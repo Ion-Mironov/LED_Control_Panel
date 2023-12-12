@@ -1,3 +1,5 @@
+#### Must run this script with `sudo` ####
+
 import sys
 from PySide6.QtCore import QObject, Signal, Slot
 from PySide6.QtGui import QGuiApplication
