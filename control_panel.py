@@ -3,7 +3,7 @@ from PySide6.QtCore import QObject, Signal, Slot
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
 from multiprocessing import Process, Event
-from LED_panel import main
+from LED_matrix import main
 
 class ControlPanel(QObject):
 	processStarted = Signal(str)
