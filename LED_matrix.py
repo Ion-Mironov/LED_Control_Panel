@@ -3,6 +3,7 @@
 from rpi_ws281x import PixelStrip, Color
 import time
 
+
 ### Global LED strip (PixelStrip) configuration ###
 LED_COUNT = 256				# Number of LED pixels.
 LED_PIN = 18				# GPIO pin connected to the pixels (Uses PWM. This is physical pin 12.). GPIO 18 is the default pin for PWM.
