@@ -5,7 +5,7 @@ import QtQuick.Layouts
 
 ApplicationWindow {
 	id: mainWindow
-	title: "Instrument Panel"
+	title: "LED Control Panel"
 	visible: true
 	width: 1920
 	height: 1080
