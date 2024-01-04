@@ -19,7 +19,6 @@ ApplicationWindow {
 	GridLayout {
 		columns: 3
 		rows: 2
-		anchors.margins: 15
 		rowSpacing: 15
 		columnSpacing: 15
 		anchors.fill: parent
