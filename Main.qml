@@ -19,10 +19,10 @@ ApplicationWindow {
 	GridLayout {
 		columns: 3
 		rows: 2
-		anchors.fill: parent
 		anchors.margins: 15
 		rowSpacing: 15
 		columnSpacing: 15
+		anchors.fill: parent
 
 		Image {
 			source: "assets/left_on.svg"
