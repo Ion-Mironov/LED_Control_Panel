@@ -4,14 +4,12 @@ import QtQuick.Layouts
 
 
 ApplicationWindow {
-	id: mainWindow
 	title: "LED Control Panel"
 	visible: true
 	width: 1920
 	height: 1080
 
 	Image {
-		id: background
 		source: "assets/background.svg"
 		anchors.fill: parent
 	}

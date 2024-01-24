@@ -6,11 +6,11 @@ import time
 
 ### Global LED strip (PixelStrip) configuration ###
 LED_COUNT = 256				# Number of LED pixels.
-LED_PIN = 18				# GPIO pin connected to the pixels (Uses PWM. This is physical pin 12.). GPIO 18 is the default pin for PWM.
+LED_PIN = 18				# GPIO pin connected to the pixels (Uses PWM. This is physical pin 12). GPIO 18 is the default pin for PWM.
 LED_FREQ_HZ = 800000		# LED signal frequency in Hertz (usually 800kHz).
 LED_DMA = 10				# DMA channel to use for generating signal.
 LED_BRIGHTNESS = 25			# Set to '0' for off and '255' for ultra-brightness. '25' is good for testing purposes.
-LED_CHANNEL = 0				# Set to '1' for GPIO 13 (This is physical pin 13).
+LED_CHANNEL = 0				# Set to '1' for GPIO 13 (which is physical pin 13).
 LED_INVERT = False			# Set to 'True' to invert the signal (when using NPN transistor level shift).
 
 
