@@ -22,7 +22,7 @@ strip.begin()
 """ Function to retrieve the LED index based on row and column. """
 def get_led_index(row, col):
 
-	# Converting 2D coordinates into a 1D LED strip index.
+	# Converting 2D coordinates into a 1D LED strip index. #
 	lookup_table = [
 		[0, 15, 16, 31, 32, 47, 48, 63, 64, 79, 80, 95,  96, 111, 112, 127, 128, 143, 144, 159, 160, 175, 176, 191, 192, 207, 208, 223, 224, 239, 240, 255],
 		[1, 14, 17, 30, 33, 46, 49, 62, 65, 78, 81, 94,  97, 110, 113, 126, 129, 142, 145, 158, 161, 174, 177, 190, 193, 206, 209, 222, 225, 238, 241, 254],
@@ -57,7 +57,7 @@ def set_brightness(value):
 	strip.show()
 
 
-#==========================================================================================================================================================================#
+#=====================================================================================================================================================================#
 ### Sequential left turn signal ###
 def left_turn_signal(strip, stop_event):
 	pixel_color = Color(255, 70, 0)										# Define the color. (Orange)
@@ -71,21 +71,21 @@ def left_turn_signal(strip, stop_event):
 
 				set_pixel_color(top_pixel, bottom_pixel, pixel_color)	# Define and display the color of the area defined by top_pixel and bottom_pixel coordinates.
 
-				strip.show()											# Display the pixels.
-				time.sleep(0.015)										# How fast the columns light up in milliseconds. Lower number = faster.
+				strip.show()											# Display pixels.
+				time.sleep(0.015)										# How fast the columns light up (in ms). Lower number = faster.
 
-			time.sleep(0.2)												# How long the LEDs stay on in milliseconds before turning off. Lower number = faster.
+			time.sleep(0.2)												# How long the LEDs stay on (in ms) before turning off. Lower number = faster.
 
 			clear_grid()												# Clear the grid before starting the sequence again.
 			strip.show()												# Display the cleared grid.
-			time.sleep(0.25)											# How long the LEDs stay off in milliseconds before starting the sequence again. Lower number = faster.
+			time.sleep(0.25)											# How long the LEDs stay off (in ms) before starting the sequence again. Lower number = faster.
 
 	finally:
 		clear_grid()
 		strip.show()
 
 
-#==========================================================================================================================================================================#
+#=====================================================================================================================================================================#
 ### Sequential right turn signal ###
 def right_turn_signal(strip, stop_event):
 	pixel_color = Color(255, 70, 0)										# Define the color. (Orange)
@@ -100,20 +100,20 @@ def right_turn_signal(strip, stop_event):
 				set_pixel_color(top_pixel, bottom_pixel, pixel_color)	# Define and display the color of the area defined by top_pixel and bottom_pixel coordinates.
 
 				strip.show()											# Display the pixels.
-				time.sleep(0.015)										# How fast the columns light up in milliseconds. Lower number = faster.
+				time.sleep(0.015)										# How fast the columns light up (in ms). Lower number = faster.
 
-			time.sleep(0.2)												# How long the LEDs stay on in milliseconds before turning off. Lower number = faster.
+			time.sleep(0.2)												# How long LEDs stay on in milliseconds before turning off. Lower number = faster.
 
 			clear_grid()												# Clear the grid before starting the sequence again.
 			strip.show()												# Display the cleared grid.
-			time.sleep(0.25)											# How long the LEDs stay off in milliseconds before starting the sequence again. Lower number = faster.
+			time.sleep(0.25)											# How long the LEDs stay off (in ms) before starting the sequence again. Lower number = faster.
 
 	finally:
 		clear_grid()
 		strip.show()
 
 
-#==========================================================================================================================================================================#
+#=====================================================================================================================================================================#
 ### 3-3-1 flash brake light ###
 def rapid_flash_brake_light(strip, stop_event):
 	pixel_color = Color(255, 0, 0)										# Define the color. (Red)
@@ -122,10 +122,10 @@ def rapid_flash_brake_light(strip, stop_event):
 
 		# Flash rapidly 3 times
 		for _ in range(3):
-			if stop_event.is_set():										# If the stop event is triggered (Ctrl + C or button pressed),
+			if stop_event.is_set():										# If the stop event is triggered (Ctrl+C or button pressed),
 				return													# exit the program.
 
-			set_pixel_color((0, 0), (7, 31), pixel_color)				# Another way to define and display the color of the desired grid coordinates.
+			set_pixel_color((0, 0), (7, 31), pixel_color)				# Alternate way to define and display the color of the desired grid coordinates.
 			strip.show()												# Show the lit LEDs.
 			time.sleep(0.1)												# How long LEDs are on (in milliseconds) during flashing sequence.
 
@@ -156,7 +156,7 @@ def rapid_flash_brake_light(strip, stop_event):
 			strip.show()
 
 
-#==========================================================================================================================================================================#
+#=====================================================================================================================================================================#
 ### Parking lights ###
 def parking_lights(strip, stop_event):
 	set_brightness(10)
@@ -174,7 +174,7 @@ def parking_lights(strip, stop_event):
 		strip.show()
 
 
-#==========================================================================================================================================================================#
+#=====================================================================================================================================================================#
 ### Function called upon by control_panel.py ###
 def main(animation, stop_event):
 	strip.show()

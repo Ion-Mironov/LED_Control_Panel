@@ -5,7 +5,7 @@ import QtQuick.Layouts
 
 ApplicationWindow {
 	title: "LED Control Panel"
-	visible: true
+	visibility: Window.Maximized
 	width: 1920
 	height: 1080
 
@@ -20,6 +20,7 @@ ApplicationWindow {
 		rowSpacing: 15
 		columnSpacing: 15
 		anchors.fill: parent
+		anchors.margins: 15
 
 		Image {
 			source: "assets/left_on.svg"
