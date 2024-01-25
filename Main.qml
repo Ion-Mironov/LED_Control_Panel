@@ -15,50 +15,118 @@ ApplicationWindow {
 	}
 
 	GridLayout {
-		columns: 3
-		rows: 2
-		rowSpacing: 15
-		columnSpacing: 15
 		anchors.fill: parent
 		anchors.margins: 15
 
-		Image {
-			source: "assets/left_on.svg"
-			Layout.fillHeight: true
-			Layout.fillWidth: true
-			fillMode: Image.PreserveAspectFit
-		}
+		columns: 3
+		columnSpacing: 15
 
-		Image {
-			source: "assets/brake_on.svg"
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			fillMode: Image.PreserveAspectFit
-		}
+		rows: 2
+		rowSpacing: 15
+		uniformCellWidths: true
+		uniformCellHeights: true
 
+
+		// ============================================================================================================== //
 		Image {
-			source: "assets/right_on.svg"
+			id: leftSignal
+			source: 'assets/left_' + leftSignal.buttonState + '.svg'
+			property string buttonState: "off"
 			Layout.fillWidth: true
 			Layout.fillHeight: true
 			fillMode: Image.PreserveAspectFit
+
+			states: [
+				State { name: 'off' },
+				State { name: 'on' }
+			]
+
+			MouseArea {
+				anchors.fill: parent
+				onClicked: leftSignal.buttonState = (leftSignal.buttonState === 'on') ? 'off' : 'on';
+			}
 		}
 
+
+		// ========================================================================================== //
 		Image {
+			id: brakeLights
+			source: 'assets/brake_' + brakeLights.buttonState + '.svg'
+			property string buttonState: "off"
+			Layout.fillWidth: true
+			Layout.fillHeight: true
+			fillMode: Image.PreserveAspectFit
+
+			states: [
+				State { name: 'off' },
+				State { name: 'on' }
+			]
+
+			MouseArea {
+				anchors.fill: parent
+				onClicked: brakeLights.buttonState = (brakeLights.buttonState === 'on') ? 'off' : 'on';
+			}
+		}
+
+
+		// ========================================================================================== //
+		Image {
+			id: rightSignal
+			source: 'assets/right_' + rightSignal.buttonState + '.svg'
+			property string buttonState: "off"
+			Layout.fillWidth: true
+			Layout.fillHeight: true
+			fillMode: Image.PreserveAspectFit
+
+			states: [
+				State { name: 'off' },
+				State { name: 'on' }
+			]
+
+			MouseArea {
+				anchors.fill: parent
+				onClicked: rightSignal.buttonState = (rightSignal.buttonState === 'on') ? 'off' : 'on';
+			}
+		}
+
+
+		// ========================================================================================== //
+		Image {
+			id: extra1
 			source: "assets/extra.svg"
+			property string buttonState: "off"
 			Layout.fillWidth: true
 			Layout.fillHeight: true
 			fillMode: Image.PreserveAspectFit
 		}
 
+
+		// ========================================================================================== //
 		Image {
-			source: "assets/parking_on.svg"
+			id: parkingLights
+			source: 'assets/parking_' + parkingLights.buttonState + '.svg'
+			property string buttonState: "off"
 			Layout.fillWidth: true
 			Layout.fillHeight: true
 			fillMode: Image.PreserveAspectFit
+
+			states: [
+				State { name: 'off' },
+				State { name: 'on' }
+			]
+
+			MouseArea {
+				anchors.fill: parent
+				onClicked: parkingLights.buttonState = (parkingLights.buttonState === 'on') ? 'off' : 'on';
+			}
 		}
 
+
+		// ========================================================================================== //
 		Image {
+			id: extra2
 			source: "assets/extra.svg"
+			property string buttonState: "off"
 			Layout.fillWidth: true
 			Layout.fillHeight: true
 			fillMode: Image.PreserveAspectFit
