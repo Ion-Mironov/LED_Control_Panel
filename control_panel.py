@@ -30,10 +30,8 @@ class ControlPanel(QObject):
 if __name__ == "__main__":
 	app = QGuiApplication(sys.argv)
 	engine = QQmlApplicationEngine()
-
 	controlPanel = ControlPanel()
 	engine.rootContext().setContextProperty("controlPanel", controlPanel)
-
 	engine.load("Main.qml")
 
 	if not engine.rootObjects():

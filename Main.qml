@@ -15,16 +15,14 @@ ApplicationWindow {
 	}
 
 	GridLayout {
-		anchors.fill: parent
-		anchors.margins: 15
-
 		columns: 3
 		columnSpacing: 15
 
 		rows: 2
 		rowSpacing: 15
-		uniformCellWidths: true
-		uniformCellHeights: true
+
+		anchors.margins: 15
+		anchors.fill: parent
 
 
 		// ============================================================================================================== //
