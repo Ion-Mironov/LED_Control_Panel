@@ -40,11 +40,12 @@ ApplicationWindow {
 			MouseArea {
 				anchors.fill: parent
 				onClicked: {
-					rightSignal.buttonState = 'off';
+					rightSignal.buttonState = 'off';					// These additional handlers will set the other buttons to Off when this button is pressed
 					brakeLights.buttonState = 'off';
 					parkingLights.buttonState = 'off';
 
-					leftSignal.buttonState = (leftSignal.buttonState === 'on') ? 'off' : 'on';
+					leftSignal.buttonState = (leftSignal.buttonState === 'on') ? 'off' : 'on';		// Toggle the button state: if current state is 'on', set it to 'off', otherwise set it to 'on'
+					// condition ? exprIfTrue : exprIfFalse
 				}
 			}
 		}

@@ -14,15 +14,15 @@ LED_CHANNEL = 0				# Set to '1' for GPIO 13 (which is physical pin 13).
 LED_INVERT = False			# Set to 'True' to invert the signal (when using NPN transistor level shift).
 
 
-""" Initialize the LED strip. """
+""" Initialize the LED strip """
 strip = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
 strip.begin()
 
 
-""" Function to retrieve the LED index based on row and column. """
+""" Function to retrieve the LED index based on row and column """
 def get_led_index(row, col):
 
-	# Converting 2D coordinates into a 1D LED strip index. #
+	# Converting 2D coordinates into a 1D LED strip index #
 	lookup_table = [
 		[0, 15, 16, 31, 32, 47, 48, 63, 64, 79, 80, 95,  96, 111, 112, 127, 128, 143, 144, 159, 160, 175, 176, 191, 192, 207, 208, 223, 224, 239, 240, 255],
 		[1, 14, 17, 30, 33, 46, 49, 62, 65, 78, 81, 94,  97, 110, 113, 126, 129, 142, 145, 158, 161, 174, 177, 190, 193, 206, 209, 222, 225, 238, 241, 254],
@@ -37,21 +37,21 @@ def get_led_index(row, col):
 	return lookup_table[row][col]
 
 
-""" Function to set the parameters of a specific region on the LED panel and the color for it. """
+""" Function to set the parameters of a specific region on the LED panel and the color for it """
 def set_pixel_color(top_pixel, bottom_pixel, color):
 	for row in range(top_pixel[0], bottom_pixel[0] + 1):
 		for col in range(top_pixel[1], bottom_pixel[1] + 1):
 			index = get_led_index(row, col)
 			strip.setPixelColor(index, color)
 
-""" Function to turn off all LEDs. """
+""" Function to turn off all LEDs """
 def clear_grid():
 	for row in range(8):												# 8 rows as per lookup_table.
 		for col in range(32):											# 32 columns as per lookup_table.
 			index = get_led_index(row, col)
 			strip.setPixelColor(index, Color(0, 0, 0))
 
-""" Function to set the brightness of the LEDs for a specific animation. """
+""" Function to set the brightness of the LEDs for a specific animation """
 def set_brightness(value):
 	strip.setBrightness(value)
 	strip.show()
