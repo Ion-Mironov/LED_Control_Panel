@@ -23,7 +23,6 @@ ApplicationWindow {
 		anchors.fill: parent
 
 
-		// ========================================================================================== //
 		Image {
 			id: leftSignal
 			source: 'images/left_' + leftSignal.buttonState + '.svg'
@@ -40,12 +39,17 @@ ApplicationWindow {
 
 			MouseArea {
 				anchors.fill: parent
-				onClicked: leftSignal.buttonState = (leftSignal.buttonState === 'on') ? 'off' : 'on';
+				onClicked: {
+					rightSignal.buttonState = 'off';
+					brakeLights.buttonState = 'off';
+					parkingLights.buttonState = 'off';
+
+					leftSignal.buttonState = (leftSignal.buttonState === 'on') ? 'off' : 'on';
+				}
 			}
 		}
 
 
-		// ========================================================================================== //
 		Image {
 			id: brakeLights
 			source: 'images/brake_' + brakeLights.buttonState + '.svg'
@@ -62,12 +66,17 @@ ApplicationWindow {
 
 			MouseArea {
 				anchors.fill: parent
-				onClicked: brakeLights.buttonState = (brakeLights.buttonState === 'on') ? 'off' : 'on';
+				onClicked: {
+					leftSignal.buttonState = 'off';
+					rightSignal.buttonState = 'off';
+					parkingLights.buttonState = 'off';
+
+					brakeLights.buttonState = (brakeLights.buttonState === 'on') ? 'off' : 'on';
+				}
 			}
 		}
 
 
-		// ========================================================================================== //
 		Image {
 			id: rightSignal
 			source: 'images/right_' + rightSignal.buttonState + '.svg'
@@ -84,12 +93,17 @@ ApplicationWindow {
 
 			MouseArea {
 				anchors.fill: parent
-				onClicked: rightSignal.buttonState = (rightSignal.buttonState === 'on') ? 'off' : 'on';
+				onClicked: {
+					leftSignal.buttonState = 'off';
+					brakeLights.buttonState = 'off';
+					parkingLights.buttonState = 'off';
+
+					rightSignal.buttonState = (rightSignal.buttonState === 'on') ? 'off' : 'on';
+				}
 			}
 		}
 
 
-		// ========================================================================================== //
 		Image {
 			id: extra1
 			source: "images/extra.svg"
@@ -99,7 +113,6 @@ ApplicationWindow {
 		}
 
 
-		// ========================================================================================== //
 		Image {
 			id: parkingLights
 			source: 'images/parking_' + parkingLights.buttonState + '.svg'
@@ -116,12 +129,17 @@ ApplicationWindow {
 
 			MouseArea {
 				anchors.fill: parent
-				onClicked: parkingLights.buttonState = (parkingLights.buttonState === 'on') ? 'off' : 'on';
+				onClicked: {
+					leftSignal.buttonState = 'off';
+					brakeLights.buttonState = 'off';
+					rightSignal.buttonState = 'off';
+
+					parkingLights.buttonState = (parkingLights.buttonState === 'on') ? 'off' : 'on';
+				}
 			}
 		}
 
 
-		// ========================================================================================== //
 		Image {
 			id: extra2
 			source: "images/extra.svg"
