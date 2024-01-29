@@ -10,7 +10,7 @@ ApplicationWindow {
 	height: 1080
 
 	Image {
-		source: "assets/background.svg"
+		source: "images/background.svg"
 		anchors.fill: parent
 	}
 
@@ -28,7 +28,7 @@ ApplicationWindow {
 		// ============================================================================================================== //
 		Image {
 			id: leftSignal
-			source: 'assets/left_' + leftSignal.buttonState + '.svg'
+			source: 'images/left_' + leftSignal.buttonState + '.svg'
 			property string buttonState: "off"
 			Layout.fillWidth: true
 			Layout.fillHeight: true
@@ -49,7 +49,7 @@ ApplicationWindow {
 		// ========================================================================================== //
 		Image {
 			id: brakeLights
-			source: 'assets/brake_' + brakeLights.buttonState + '.svg'
+			source: 'images/brake_' + brakeLights.buttonState + '.svg'
 			property string buttonState: "off"
 			Layout.fillWidth: true
 			Layout.fillHeight: true
@@ -70,7 +70,7 @@ ApplicationWindow {
 		// ========================================================================================== //
 		Image {
 			id: rightSignal
-			source: 'assets/right_' + rightSignal.buttonState + '.svg'
+			source: 'images/right_' + rightSignal.buttonState + '.svg'
 			property string buttonState: "off"
 			Layout.fillWidth: true
 			Layout.fillHeight: true
@@ -91,8 +91,7 @@ ApplicationWindow {
 		// ========================================================================================== //
 		Image {
 			id: extra1
-			source: "assets/extra.svg"
-			property string buttonState: "off"
+			source: "images/extra.svg"
 			Layout.fillWidth: true
 			Layout.fillHeight: true
 			fillMode: Image.PreserveAspectFit
@@ -102,7 +101,7 @@ ApplicationWindow {
 		// ========================================================================================== //
 		Image {
 			id: parkingLights
-			source: 'assets/parking_' + parkingLights.buttonState + '.svg'
+			source: 'images/parking_' + parkingLights.buttonState + '.svg'
 			property string buttonState: "off"
 			Layout.fillWidth: true
 			Layout.fillHeight: true
@@ -123,8 +122,7 @@ ApplicationWindow {
 		// ========================================================================================== //
 		Image {
 			id: extra2
-			source: "assets/extra.svg"
-			property string buttonState: "off"
+			source: "images/extra.svg"
 			Layout.fillWidth: true
 			Layout.fillHeight: true
 			fillMode: Image.PreserveAspectFit
