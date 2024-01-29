@@ -1,11 +1,11 @@
 #### Must run this script with `sudo` ####
 
-import sys
 from PySide6.QtCore import QObject, Signal, Slot
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
 from multiprocessing import Process, Event
 from led_matrix import main
+import sys
 
 
 class ControlPanel(QObject):
