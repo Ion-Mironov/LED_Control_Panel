@@ -115,7 +115,7 @@ def right_turn_signal(strip, stop_event):
 
 #=====================================================================================================================================================================#
 ### 3-3-1 flash brake light ###
-def rapid_flash_brake_light(strip, stop_event):
+def brake_lights(strip, stop_event):
 	pixel_color = Color(255, 0, 0)										# Define the color. (Red)
 
 	try:
@@ -185,7 +185,7 @@ def main(animation, stop_event):
 		right_turn_signal(strip, stop_event)
 
 	elif animation == "Brake":
-		rapid_flash_brake_light(strip, stop_event)
+		brake_lights(strip, stop_event)
 
 	elif animation == "Parking Lights":
 		parking_lights(strip, stop_event)
