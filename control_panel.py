@@ -1,11 +1,13 @@
 #### Must run this script with `sudo` ####
 
+import sys
+from pathlib import Path
+from led_matrix import main
+from multiprocessing import Process, Event
 from PySide6.QtCore import QObject, Signal, Slot
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
-from multiprocessing import Process, Event
-from led_matrix import main
-import sys
+
 
 
 class ControlPanel(QObject):
@@ -15,6 +17,7 @@ class ControlPanel(QObject):
 		super().__init__()
 		self.stop_event = Event()
 		self.current_process = None
+
 
 	@Slot(str)
 	def runAnimation(self, animation_name):
@@ -27,14 +30,18 @@ class ControlPanel(QObject):
 		self.current_process.start()
 		self.processStarted.emit(animation_name)
 
+
 if __name__ == "__main__":
-	app = QGuiApplication(sys.argv)
-	engine = QQmlApplicationEngine()
 	controlPanel = ControlPanel()
+	qml_file = Path(__file__).parent / "Main.qml"
+	app = QGuiApplication(sys.argv)
+
+	engine = QQmlApplicationEngine()
 	engine.rootContext().setContextProperty("controlPanel", controlPanel)
 	engine.load("Main.qml")
+	engine.quit.connect(app.quit)
 
 	if not engine.rootObjects():
 		sys.exit(-1)
 
-	sys.exit(app.exec_())
+	sys.exit(app.exec())

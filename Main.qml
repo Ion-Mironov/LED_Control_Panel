@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 
+
 ApplicationWindow {
 	title: "LED Control Panel"
 	visibility: Window.Maximized
@@ -23,6 +24,7 @@ ApplicationWindow {
 		anchors.fill: parent
 
 
+		// ======================================================================================================= //
 		Image {
 			id: leftSignal
 			source: 'images/left_' + leftSignal.buttonState + '.svg'
@@ -44,12 +46,13 @@ ApplicationWindow {
 					brakeLights.buttonState = 'off';
 					parkingLights.buttonState = 'off';
 
-					leftSignal.buttonState = (leftSignal.buttonState === 'on') ? 'off' : 'on';		// Toggle the button state: if current state is 'on', set it to 'off', otherwise set it to 'on' [condition ? exprIfTrue : exprIfFalse]
+					leftSignal.buttonState = (leftSignal.buttonState === 'on') ? 'off' : 'on';
 				}
 			}
 		}
 
 
+		// ======================================================================================================= //
 		Image {
 			id: brakeLights
 			source: 'images/brake_' + brakeLights.buttonState + '.svg'
@@ -77,6 +80,7 @@ ApplicationWindow {
 		}
 
 
+		// ======================================================================================================= //
 		Image {
 			id: rightSignal
 			source: 'images/right_' + rightSignal.buttonState + '.svg'
@@ -104,6 +108,7 @@ ApplicationWindow {
 		}
 
 
+		// ======================================================================================================= //
 		Image {
 			id: extra1
 			source: "images/extra.svg"
@@ -113,6 +118,7 @@ ApplicationWindow {
 		}
 
 
+		// ======================================================================================================= //
 		Image {
 			id: parkingLights
 			source: 'images/parking_' + parkingLights.buttonState + '.svg'
@@ -140,6 +146,7 @@ ApplicationWindow {
 		}
 
 
+		// ======================================================================================================= //
 		Image {
 			id: extra2
 			source: "images/extra.svg"

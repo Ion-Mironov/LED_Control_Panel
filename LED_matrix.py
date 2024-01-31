@@ -176,16 +176,16 @@ def parking_lights(strip, stop_event):
 
 #=====================================================================================================================================================================#
 ### Functions called upon by control_panel.py ###
-def main(animation, stop_event):
+def main(animation_name, stop_event):
 	strip.show()
-	if animation == "Left":
+	if animation_name == "Left":
 		left_turn_signal(strip, stop_event)
 
-	elif animation == "Right":
+	elif animation_name == "Right":
 		right_turn_signal(strip, stop_event)
 
-	elif animation == "Brake":
+	elif animation_name == "Brake":
 		brake_lights(strip, stop_event)
 
-	elif animation == "Parking Lights":
+	elif animation_name == "Parking Lights":
 		parking_lights(strip, stop_event)
