@@ -175,7 +175,7 @@ def parking_lights(strip, stop_event):
 
 
 #=====================================================================================================================================================================#
-### Functions called upon by control_panel.py ###
+### Functions called upon by main.py ###
 def main(animation_name, stop_event):
 	strip.show()
 	if animation_name == "Left":

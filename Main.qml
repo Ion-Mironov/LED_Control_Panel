@@ -41,6 +41,7 @@ ApplicationWindow {
 
 			MouseArea {
 				anchors.fill: parent
+
 				onClicked: {
 					rightSignal.buttonState = 'off';					// These additional handlers will set the other buttons to Off when this button is pressed
 					brakeLights.buttonState = 'off';
