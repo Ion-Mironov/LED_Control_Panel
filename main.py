@@ -4,6 +4,7 @@ import sys
 from pathlib import Path
 from led_matrix import main
 from multiprocessing import Process, Event
+
 from PySide6.QtCore import QObject, Signal, Slot
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
@@ -20,7 +21,6 @@ class ControlPanel(QObject):
 
 	@Slot(str)
 	def runAnimation(self, animation_name):
-		print(f"Running animation: {animation_name}")
 		if self.current_process and self.current_process.is_alive():
 			self.stop_event.set()
 			self.current_process.join()
