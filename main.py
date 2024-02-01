@@ -11,16 +11,16 @@ from PySide6.QtQml import QQmlApplicationEngine
 
 
 class ControlPanel(QObject):
-	processStarted = Signal(str)
-
 	def __init__(self):
 		super().__init__()
 		self.stop_event = Event()
 		self.current_process = None
 
+	processStarted = Signal(str)
 
 	@Slot(str)
 	def runAnimation(self, animation_name):
+		print(f"Running animation: {animation_name}")
 		if self.current_process and self.current_process.is_alive():
 			self.stop_event.set()
 			self.current_process.join()
@@ -32,14 +32,14 @@ class ControlPanel(QObject):
 
 
 if __name__ == "__main__":
-	controlPanel = ControlPanel()
-	qml_file = Path(__file__).parent / "Main.qml"
 	app = QGuiApplication(sys.argv)
-
 	engine = QQmlApplicationEngine()
+
+	controlPanel = ControlPanel()
 	engine.rootContext().setContextProperty("controlPanel", controlPanel)
-	engine.load("Main.qml")
-	engine.quit.connect(app.quit)
+
+	qml_file = Path(__file__).parent / "main.qml"
+	engine.load("main.qml")
 
 	if not engine.rootObjects():
 		sys.exit(-1)

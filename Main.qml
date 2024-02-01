@@ -3,7 +3,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 
-
 ApplicationWindow {
 	title: "LED Control Panel"
 	visibility: Window.Maximized
@@ -43,11 +42,12 @@ ApplicationWindow {
 				anchors.fill: parent
 
 				onClicked: {
-					rightSignal.buttonState = 'off';					// These additional handlers will set the other buttons to Off when this button is pressed
+					rightSignal.buttonState = 'off';
 					brakeLights.buttonState = 'off';
 					parkingLights.buttonState = 'off';
 
 					leftSignal.buttonState = (leftSignal.buttonState === 'on') ? 'off' : 'on';
+					controlPanel.runAnimation("left_turn_signal");
 				}
 			}
 		}
@@ -76,6 +76,7 @@ ApplicationWindow {
 					parkingLights.buttonState = 'off';
 
 					brakeLights.buttonState = (brakeLights.buttonState === 'on') ? 'off' : 'on';
+					controlPanel.runAnimation("brake_lights");
 				}
 			}
 		}
@@ -104,6 +105,7 @@ ApplicationWindow {
 					parkingLights.buttonState = 'off';
 
 					rightSignal.buttonState = (rightSignal.buttonState === 'on') ? 'off' : 'on';
+					controlPanel.runAnimation("right_turn_signal");
 				}
 			}
 		}
@@ -142,6 +144,7 @@ ApplicationWindow {
 					rightSignal.buttonState = 'off';
 
 					parkingLights.buttonState = (parkingLights.buttonState === 'on') ? 'off' : 'on';
+					controlPanel.runAnimation("parking_lights");
 				}
 			}
 		}

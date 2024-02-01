@@ -123,7 +123,7 @@ def brake_lights(strip, stop_event):
 		# Flash rapidly 3 times
 		for _ in range(3):
 			if stop_event.is_set():										# If the stop event is triggered (Ctrl+C or button pressed),
-				return													# exit the program.
+				return													# Exit the program.
 
 			set_pixel_color((0, 0), (7, 31), pixel_color)				# Alternate way to define and display the color of the desired grid coordinates.
 			strip.show()
@@ -177,6 +177,7 @@ def parking_lights(strip, stop_event):
 #=====================================================================================================================================================================#
 ### Functions called upon by main.py ###
 def main(animation_name, stop_event):
+	print(f"Executing animation: {animation_name}")
 	strip.show()
 	if animation_name == "Left":
 		left_turn_signal(strip, stop_event)
