@@ -47,7 +47,7 @@ ApplicationWindow {
 					parkingLights.buttonState = 'off';
 
 					leftSignal.buttonState = (leftSignal.buttonState === 'on') ? 'off' : 'on';
-					controlPanel.runAnimation("left_turn_signal");
+					controlPanel.buttonClicked("left_turn_signal");
 				}
 			}
 		}
@@ -76,7 +76,7 @@ ApplicationWindow {
 					parkingLights.buttonState = 'off';
 
 					brakeLights.buttonState = (brakeLights.buttonState === 'on') ? 'off' : 'on';
-					controlPanel.runAnimation("brake_lights");
+					controlPanel.buttonClicked("brake_lights");
 				}
 			}
 		}
@@ -105,7 +105,7 @@ ApplicationWindow {
 					parkingLights.buttonState = 'off';
 
 					rightSignal.buttonState = (rightSignal.buttonState === 'on') ? 'off' : 'on';
-					controlPanel.runAnimation("right_turn_signal");
+					controlPanel.buttonClicked("right_turn_signal");
 				}
 			}
 		}
@@ -144,7 +144,7 @@ ApplicationWindow {
 					rightSignal.buttonState = 'off';
 
 					parkingLights.buttonState = (parkingLights.buttonState === 'on') ? 'off' : 'on';
-					controlPanel.runAnimation("parking_lights");
+					controlPanel.buttonClicked("parking_lights");
 				}
 			}
 		}
