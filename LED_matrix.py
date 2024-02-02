@@ -4,7 +4,7 @@ from rpi_ws281x import PixelStrip, Color
 import time
 
 
-### Global LED strip (PixelStrip) configuration ###
+### Global LED grid (PixelStrip) configuration ###
 LED_COUNT = 256				# Number of LED pixels.
 LED_PIN = 18				# GPIO pin connected to the pixels (Uses PWM. This is physical pin 12). GPIO 18 is the default pin for PWM.
 LED_FREQ_HZ = 800000		# LED signal frequency in Hertz (usually 800kHz).
@@ -14,15 +14,15 @@ LED_CHANNEL = 0				# Set to '1' for GPIO 13 (which is physical pin 13).
 LED_INVERT = False			# Set to 'True' to invert the signal (when using NPN transistor level shift).
 
 
-""" Initialize the LED strip """
-strip = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
-strip.begin()
+""" Initialize the LED grid """
+grid = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+grid.begin()
 
 
 """ Function to retrieve the LED index based on row and column """
 def get_led_index(row, col):
 
-	# Converting 2D coordinates into a 1D LED strip index #
+	# Converting 2D coordinates into a 1D LED grid index #
 	lookup_table = [
 		[0, 15, 16, 31, 32, 47, 48, 63, 64, 79, 80, 95,  96, 111, 112, 127, 128, 143, 144, 159, 160, 175, 176, 191, 192, 207, 208, 223, 224, 239, 240, 255],
 		[1, 14, 17, 30, 33, 46, 49, 62, 65, 78, 81, 94,  97, 110, 113, 126, 129, 142, 145, 158, 161, 174, 177, 190, 193, 206, 209, 222, 225, 238, 241, 254],
@@ -33,8 +33,8 @@ def get_led_index(row, col):
 		[6,  9, 22, 25, 38, 41, 54, 57, 70, 73, 86, 89, 102, 105, 118, 121, 134, 137, 150, 153, 166, 169, 182, 185, 198, 201, 214, 217, 230, 233, 246, 249],
 		[7,  8, 23, 24, 39, 40, 55, 56, 71, 72, 87, 88, 103, 104, 119, 120, 135, 136, 151, 152, 167, 168, 183, 184, 199, 200, 215, 216, 231, 232, 247, 248]
 	]
-
 	return lookup_table[row][col]
+
 
 
 """ Function to set the parameters of a specific region on the LED panel and the color for it """
@@ -42,7 +42,12 @@ def set_pixel_color(top_pixel, bottom_pixel, color):
 	for row in range(top_pixel[0], bottom_pixel[0] + 1):
 		for col in range(top_pixel[1], bottom_pixel[1] + 1):
 			index = get_led_index(row, col)
-			strip.setPixelColor(index, color)
+			grid.setPixelColor(index, color)
+
+
+""" Function to set the brightness of the LEDs """
+def set_brightness(value):
+	grid.setBrightness(value)
 
 
 """ Function to turn off all LEDs """
@@ -50,19 +55,13 @@ def clear_grid():
 	for row in range(8):												# 8 rows as per lookup_table.
 		for col in range(32):											# 32 columns as per lookup_table.
 			index = get_led_index(row, col)
-			strip.setPixelColor(index, Color(0, 0, 0))
-
-
-""" Function to set the brightness of the LEDs for a specific animation """
-def set_brightness(value):
-	strip.setBrightness(value)
-	strip.show()
+			grid.setPixelColor(index, Color(0, 0, 0))
 
 
 
-#===========================================================================================================================================================#
+# ======================================================================================================================================================== #
 ### Sequential left turn signal ###
-def left_turn_signal(strip, stop_event):
+def left_turn_signal(grid, stop_event):
 	pixel_color = Color(255, 70, 0)										# Define the color. (Orange)
 
 	try:
@@ -72,25 +71,24 @@ def left_turn_signal(strip, stop_event):
 				top_pixel = (0, col_start)								# Start at row 0, column 0.
 				bottom_pixel = (3, col_start)							# End at row 3, column 0.
 
-				set_pixel_color(top_pixel, bottom_pixel, pixel_color)	# Set and display color of area defined by top_pixel and bottom_pixel coordinates.
+				set_pixel_color(top_pixel, bottom_pixel, pixel_color)	# Set and display color of area defined by `top_pixel` & `bottom_pixel` coordinates.
 
-				strip.show()											# Display LEDs.
+				grid.show()												# Display LEDs.
 				time.sleep(0.015)										# How fast the columns light up (in milliseconds).
 
-			time.sleep(0.2)												# How long the LEDs stay on before turning off.
-
+			time.sleep(0.2)												# How long the LEDs stay ON before turning off.
 			clear_grid()												# Clear the grid before starting the sequence again.
-			strip.show()												# Display the cleared grid.
-			time.sleep(0.25)											# How long LEDs stay off before starting sequence again.
+			grid.show()													# Display the cleared grid.
+			time.sleep(0.25)											# How long the LEDs stay OFF before starting sequence again.
 
 	finally:
 		clear_grid()
-		strip.show()
+		grid.show()
 
 
-#===========================================================================================================================================================#
+# ======================================================================================================================================================== #
 ### Sequential right turn signal ###
-def right_turn_signal(strip, stop_event):
+def right_turn_signal(grid, stop_event):
 	pixel_color = Color(255, 70, 0)
 	
 	try:
@@ -102,23 +100,22 @@ def right_turn_signal(strip, stop_event):
 
 				set_pixel_color(top_pixel, bottom_pixel, pixel_color)
 
-				strip.show()
+				grid.show()
 				time.sleep(0.015)
 
 			time.sleep(0.2)
-
 			clear_grid()
-			strip.show()
+			grid.show()
 			time.sleep(0.25)
 
 	finally:
 		clear_grid()
-		strip.show()
+		grid.show()
 
 
-#===========================================================================================================================================================#
+# ======================================================================================================================================================== #
 ### 3-3-1 flash brake light ###
-def brake_lights(strip, stop_event):
+def brake_lights(grid, stop_event):
 	pixel_color = Color(255, 0, 0)
 
 	try:
@@ -126,14 +123,14 @@ def brake_lights(strip, stop_event):
 		# Flash rapidly 3 times
 		for _ in range(3):
 			if stop_event.is_set():										# If the stop event is triggered (Ctrl+C or button pressed),
-				return													# Exit the program.
+				return													# exit the program.
 
 			set_pixel_color((0, 0), (7, 31), pixel_color)				# Alternate way to define and display the color of the desired grid coordinates.
-			strip.show()
+			grid.show()
 			time.sleep(0.1)												# How long LEDs are on during flashing sequence.
 
 			clear_grid()
-			strip.show()
+			grid.show()
 			time.sleep(0.1)												# How long LEDs are off during flashing sequence.
 
 		# Flash normally 3 times
@@ -142,26 +139,26 @@ def brake_lights(strip, stop_event):
 				return
 			
 			set_pixel_color((0, 0), (7, 31), pixel_color)
-			strip.show()
+			grid.show()
 			time.sleep(0.3)
 
 			clear_grid()
-			strip.show()
+			grid.show()
 			time.sleep(0.3)
 
 		# Remain constantly lit
 		set_pixel_color((0, 0), (7, 31), pixel_color)
-		strip.show()
+		grid.show()
 
 	finally:
 		if stop_event.is_set():
 			clear_grid()
-			strip.show()
+			grid.show()
 
 
-#===========================================================================================================================================================#
+# ======================================================================================================================================================== #
 ### Parking lights ###
-def parking_lights(strip, stop_event):
+def parking_lights(grid, stop_event):
 	set_brightness(10)
 	pixel_color = Color(255, 0, 0)
 
@@ -170,25 +167,25 @@ def parking_lights(strip, stop_event):
 	try:
 		while not stop_event.is_set():
 			set_pixel_color((0, 0), (7, 31), pixel_color)
-			strip.show()
+			grid.show()
 
 	finally:
 		clear_grid()
-		strip.show()
+		grid.show()
 
 
-#===========================================================================================================================================================#
+# ======================================================================================================================================================== #
 ### Functions called upon by main.py ###
 def main(animation_name, stop_event):
-	strip.show()
+	grid.show()
 	if animation_name == "Left":
-		left_turn_signal(strip, stop_event)
+		left_turn_signal(grid, stop_event)
 
 	elif animation_name == "Right":
-		right_turn_signal(strip, stop_event)
+		right_turn_signal(grid, stop_event)
 
 	elif animation_name == "Brake":
-		brake_lights(strip, stop_event)
+		brake_lights(grid, stop_event)
 
 	elif animation_name == "Parking Lights":
-		parking_lights(strip, stop_event)
+		parking_lights(grid, stop_event)
