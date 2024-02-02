@@ -38,7 +38,7 @@ def get_led_index(row, col):
 
 
 """ Function to set the parameters of a specific region on the LED panel and the color for it """
-def set_pixel_color(top_pixel, bottom_pixel, color):
+def pixel_setup(top_pixel, bottom_pixel, color):
 	for row in range(top_pixel[0], bottom_pixel[0] + 1):
 		for col in range(top_pixel[1], bottom_pixel[1] + 1):
 			index = get_led_index(row, col)
@@ -71,7 +71,7 @@ def left_turn_signal(grid, stop_event):
 				top_pixel = (0, col_start)								# Start at row 0, column 0.
 				bottom_pixel = (3, col_start)							# End at row 3, column 0.
 
-				set_pixel_color(top_pixel, bottom_pixel, pixel_color)	# Set and display color of area defined by `top_pixel` & `bottom_pixel` coordinates.
+				pixel_setup(top_pixel, bottom_pixel, pixel_color)	# Set and display color of area defined by `top_pixel` & `bottom_pixel` coordinates.
 
 				grid.show()												# Display LEDs.
 				time.sleep(0.015)										# How fast the columns light up (in milliseconds).
@@ -98,7 +98,7 @@ def right_turn_signal(grid, stop_event):
 				top_pixel = (0, col_start)
 				bottom_pixel = (3, col_start)
 
-				set_pixel_color(top_pixel, bottom_pixel, pixel_color)
+				pixel_setup(top_pixel, bottom_pixel, pixel_color)
 
 				grid.show()
 				time.sleep(0.015)
@@ -125,7 +125,7 @@ def brake_lights(grid, stop_event):
 			if stop_event.is_set():										# If the stop event is triggered (Ctrl+C or button pressed),
 				return													# exit the program.
 
-			set_pixel_color((0, 0), (7, 31), pixel_color)				# Alternate way to define and display the color of the desired grid coordinates.
+			pixel_setup((0, 0), (7, 31), pixel_color)				# Alternate way to define and display the color of the desired grid coordinates.
 			grid.show()
 			time.sleep(0.1)												# How long LEDs are on during flashing sequence.
 
@@ -138,7 +138,7 @@ def brake_lights(grid, stop_event):
 			if stop_event.is_set():
 				return
 			
-			set_pixel_color((0, 0), (7, 31), pixel_color)
+			pixel_setup((0, 0), (7, 31), pixel_color)
 			grid.show()
 			time.sleep(0.3)
 
@@ -147,7 +147,7 @@ def brake_lights(grid, stop_event):
 			time.sleep(0.3)
 
 		# Remain constantly lit
-		set_pixel_color((0, 0), (7, 31), pixel_color)
+		pixel_setup((0, 0), (7, 31), pixel_color)
 		grid.show()
 
 	finally:
@@ -166,7 +166,7 @@ def parking_lights(grid, stop_event):
 	# Keep the LEDs on until the stop_event is triggered
 	try:
 		while not stop_event.is_set():
-			set_pixel_color((0, 0), (7, 31), pixel_color)
+			pixel_setup((0, 0), (7, 31), pixel_color)
 			grid.show()
 
 	finally:
