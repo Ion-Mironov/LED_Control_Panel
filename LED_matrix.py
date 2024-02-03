@@ -61,131 +61,95 @@ def clear_grid():
 
 # ======================================================================================================================================================== #
 ### Sequential left turn signal ###
-def left_turn_signal(grid, stop_event):
-	pixel_color = Color(255, 70, 0)										# Define the color. (Orange)
+def left_turn_signal_on(grid):
+	pixel_color = Color(255, 70, 0)								# Define the color. (Orange)
+	for col_start in range(31, -1, -1):							# Iterating over each column right-to-left (← ← ←).
+		top_pixel = (0, col_start)								# Start at row 0, column 0.
+		bottom_pixel = (3, col_start)							# End at row 3, column 0.
+		pixel_setup(top_pixel, bottom_pixel, pixel_color)		# Set and display color of area defined by `top_pixel` & `bottom_pixel` coordinates.
+		grid.show()												# Display LEDs.
+		time.sleep(0.015)										# How fast the columns light up (in milliseconds).
 
-	try:
-		while not stop_event.is_set():
-			for col_start in range(31, -1, -1):							# Iterating over each column right-to-left (← ← ←).
+	time.sleep(0.2)												# How long the LEDs stay ON before turning off.
+	clear_grid()												# Clear the grid before starting the sequence again.
+	grid.show()													# Display the cleared grid.
+	time.sleep(0.25)											# How long the LEDs stay OFF before starting sequence again.
 
-				top_pixel = (0, col_start)								# Start at row 0, column 0.
-				bottom_pixel = (3, col_start)							# End at row 3, column 0.
 
-				pixel_setup(top_pixel, bottom_pixel, pixel_color)	# Set and display color of area defined by `top_pixel` & `bottom_pixel` coordinates.
+def left_turn_signal_off(grid):
+	clear_grid()
+	grid.show()
 
-				grid.show()												# Display LEDs.
-				time.sleep(0.015)										# How fast the columns light up (in milliseconds).
-
-			time.sleep(0.2)												# How long the LEDs stay ON before turning off.
-			clear_grid()												# Clear the grid before starting the sequence again.
-			grid.show()													# Display the cleared grid.
-			time.sleep(0.25)											# How long the LEDs stay OFF before starting sequence again.
-
-	finally:
-		clear_grid()
-		grid.show()
 
 
 # ======================================================================================================================================================== #
 ### Sequential right turn signal ###
-def right_turn_signal(grid, stop_event):
+def right_turn_signal_on(grid):
 	pixel_color = Color(255, 70, 0)
-	
-	try:
-		while not stop_event.is_set():
-			for col_start in range(0, 32):								# Iterating over each column left-to-right (→ → →)
-
-				top_pixel = (0, col_start)
-				bottom_pixel = (3, col_start)
-
-				pixel_setup(top_pixel, bottom_pixel, pixel_color)
-
-				grid.show()
-				time.sleep(0.015)
-
-			time.sleep(0.2)
-			clear_grid()
-			grid.show()
-			time.sleep(0.25)
-
-	finally:
-		clear_grid()
+	for col_start in range(0, 32):								# Iterating over each column left-to-right (→ → →)
+		top_pixel = (0, col_start)
+		bottom_pixel = (3, col_start)
+		pixel_setup(top_pixel, bottom_pixel, pixel_color)
 		grid.show()
+		time.sleep(0.015)
+
+	time.sleep(0.2)
+	clear_grid()
+	grid.show()
+	time.sleep(0.25)
+
+
+def right_turn_signal_off(grid):
+	clear_grid()
+	grid.show()
+
 
 
 # ======================================================================================================================================================== #
 ### 3-3-1 flash brake light ###
-def brake_lights(grid, stop_event):
+def brake_lights_on(grid):
 	pixel_color = Color(255, 0, 0)
 
-	try:
+	# Flash rapidly 3 times
+	for _ in range(3):
+		pixel_setup((0, 0), (7, 31), pixel_color)				# Alternate way to define and display the color of the desired grid coordinates.
+		grid.show()
+		time.sleep(0.1)											# How long LEDs are on during flashing sequence.
 
-		# Flash rapidly 3 times
-		for _ in range(3):
-			if stop_event.is_set():										# If the stop event is triggered (Ctrl+C or button pressed),
-				return													# exit the program.
+		clear_grid()
+		grid.show()
+		time.sleep(0.1)											# How long LEDs are off during flashing sequence.
 
-			pixel_setup((0, 0), (7, 31), pixel_color)				# Alternate way to define and display the color of the desired grid coordinates.
-			grid.show()
-			time.sleep(0.1)												# How long LEDs are on during flashing sequence.
-
-			clear_grid()
-			grid.show()
-			time.sleep(0.1)												# How long LEDs are off during flashing sequence.
-
-		# Flash normally 3 times
-		for _ in range(3):
-			if stop_event.is_set():
-				return
-			
-			pixel_setup((0, 0), (7, 31), pixel_color)
-			grid.show()
-			time.sleep(0.3)
-
-			clear_grid()
-			grid.show()
-			time.sleep(0.3)
-
-		# Remain constantly lit
+	# Flash normally 3 times
+	for _ in range(3):
 		pixel_setup((0, 0), (7, 31), pixel_color)
 		grid.show()
+		time.sleep(0.3)
 
-	finally:
-		if stop_event.is_set():
-			clear_grid()
-			grid.show()
+		clear_grid()
+		grid.show()
+		time.sleep(0.3)
+
+	# Remain constantly lit
+	pixel_setup((0, 0), (7, 31), pixel_color)
+	grid.show()
+
+
+def brake_lights_off(grid):
+	clear_grid()
+	grid.show()
+
 
 
 # ======================================================================================================================================================== #
 ### Parking lights ###
-def parking_lights(grid, stop_event):
+def parking_lights_on(grid):
 	set_brightness(10)
 	pixel_color = Color(255, 0, 0)
-
-
-	# Keep the LEDs on until the stop_event is triggered
-	try:
-		while not stop_event.is_set():
-			pixel_setup((0, 0), (7, 31), pixel_color)
-			grid.show()
-
-	finally:
-		clear_grid()
-		grid.show()
-
-
-# ======================================================================================================================================================== #
-### Functions called upon by main.py ###
-def main(animation_name, stop_event):
+	pixel_setup((0, 0), (7, 31), pixel_color)
 	grid.show()
-	if animation_name == "Left":
-		left_turn_signal(grid, stop_event)
 
-	elif animation_name == "Right":
-		right_turn_signal(grid, stop_event)
 
-	elif animation_name == "Brake":
-		brake_lights(grid, stop_event)
-
-	elif animation_name == "Parking Lights":
-		parking_lights(grid, stop_event)
+def parking_lights_off(grid):
+	clear_grid()
+	grid.show()

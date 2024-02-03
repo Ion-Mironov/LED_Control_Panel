@@ -4,10 +4,9 @@ import QtQuick.Layouts
 
 
 ApplicationWindow {
-	title: "LED Control Panel"
-	visibility: Window.Maximized
 	width: 1920
 	height: 1080
+	visibility: Window.Maximized
 
 	Image {
 		source: "images/background.svg"
@@ -23,95 +22,116 @@ ApplicationWindow {
 		anchors.fill: parent
 
 
-		// ======================================================================================================= //
+		// Bool properties to hold each button's state
+		property bool leftSignalState: false
+		property bool rightSignalState: false
+		property bool brakeLightsState: false
+		property bool parkingLightsState: false
+
+
+		/* ----- Left Turn Signal -------------------------------------------------------------- */
+		// Function to toggle the LED animation on and off
+		function toggleLeftSignal() {
+
+			// Stop all other animations
+    		controlPanel.rightSignalOff();
+			controlPanel.brakeLightsOff();
+			controlPanel.parkingLightsOff();
+
+			leftSignalState ? controlPanel.leftSignalOn() : controlPanel.leftSignalOff();
+			leftSignalState = !leftSignalState;
+		}
+
+
+		/* ----- Brake Lights ------------------------------------------------------------------ */
+		function toggleBrakeLights() {
+			controlPanel.leftSignalOff();
+			controlPanel.rightSignalOff();;
+			controlPanel.parkingLightsOff();
+
+			brakeLightsState ? controlPanel.brakeLightsOn() : controlPanel.brakeLightsOff();
+			brakeLightsState = !brakeLightsState;
+		}
+
+
+		/* ----- Right Turn Signal ------------------------------------------------------------- */
+		function toggleRightSignal() {
+			controlPanel.leftSignalOff();
+			controlPanel.brakeLightsOff();
+			controlPanel.parkingLightsOff();
+
+			rightSignalState ? controlPanel.rightSignalOn() : controlPanel.rightSignalOff();
+			rightSignalState = !rightSignalState;
+		}
+
+
+		/* ----- Parking Lights ---------------------------------------------------------------- */
+		function toggleParkingLights() {
+			controlPanel.leftSignalOff();
+			controlPanel.rightSignalOff();;
+			controlPanel.brakeLightsOff();
+
+			parkingLightsState ? controlPanel.parkingLightsOn() : controlPanel.parkingLightsOff();
+			parkingLightsState = !parkingLightsState;
+		}
+
+
+
+		// Buttons
+
+		/* ----- Left Turn Signal -------------------------------------------------------------- */
 		Image {
 			id: leftSignal
-			source: 'images/left_' + leftSignal.buttonState + '.svg'
+			source: "images/left_" + (leftSignalState ? "on" : "off") + ".svg"
 			Layout.fillWidth: true
 			Layout.fillHeight: true
 			fillMode: Image.PreserveAspectFit
-
-			property string buttonState: "off"
-
-			states: [
-				State { name: 'off' },
-				State { name: 'on' }
-			]
 
 			MouseArea {
 				anchors.fill: parent
 
 				onClicked: {
-					rightSignal.buttonState = 'off';
-					brakeLights.buttonState = 'off';
-					parkingLights.buttonState = 'off';
-
-					leftSignal.buttonState = (leftSignal.buttonState === 'on') ? 'off' : 'on';
-					controlPanel.buttonClicked("left_turn_signal");
+					toggleLeftSignal();
 				}
 			}
 		}
 
 
-		// ======================================================================================================= //
+		/* ----- Brake Lights ------------------------------------------------------------------ */
 		Image {
 			id: brakeLights
-			source: 'images/brake_' + brakeLights.buttonState + '.svg'
+			source: "images/brake_" + (brakeLightsState ? "on" : "off") + ".svg"
 			Layout.fillWidth: true
 			Layout.fillHeight: true
 			fillMode: Image.PreserveAspectFit
 
-			property string buttonState: "off"
-
-			states: [
-				State { name: 'off' },
-				State { name: 'on' }
-			]
-
 			MouseArea {
 				anchors.fill: parent
 				onClicked: {
-					leftSignal.buttonState = 'off';
-					rightSignal.buttonState = 'off';
-					parkingLights.buttonState = 'off';
-
-					brakeLights.buttonState = (brakeLights.buttonState === 'on') ? 'off' : 'on';
-					controlPanel.buttonClicked("brake_lights");
+					toggleBrakeLights();
 				}
 			}
 		}
 
 
-		// ======================================================================================================= //
+		/* ----- Right Turn Signal ------------------------------------------------------------- */
 		Image {
 			id: rightSignal
-			source: 'images/right_' + rightSignal.buttonState + '.svg'
+			source: "images/right_" + (rightSignalState ? "on" : "off") + ".svg"
 			Layout.fillWidth: true
 			Layout.fillHeight: true
 			fillMode: Image.PreserveAspectFit
 
-			property string buttonState: "off"
-
-			states: [
-				State { name: 'off' },
-				State { name: 'on' }
-			]
-
 			MouseArea {
 				anchors.fill: parent
 				onClicked: {
-					leftSignal.buttonState = 'off';
-					brakeLights.buttonState = 'off';
-					parkingLights.buttonState = 'off';
-
-					rightSignal.buttonState = (rightSignal.buttonState === 'on') ? 'off' : 'on';
-					controlPanel.buttonClicked("right_turn_signal");
+					toggleRightSignal();
 				}
 			}
 		}
 
 
-		// ======================================================================================================= //
+		/* ----- Extra ------------------------------------------------------------------------- */
 		Image {
 			id: extra1
 			source: "images/extra.svg"
@@ -121,36 +141,24 @@ ApplicationWindow {
 		}
 
 
-		// ======================================================================================================= //
+		/* ----- Parking Lights ---------------------------------------------------------------- */
 		Image {
 			id: parkingLights
-			source: 'images/parking_' + parkingLights.buttonState + '.svg'
+			source: "images/right_" + (parkingLightsState ? "on" : "off") + ".svg"
 			Layout.fillWidth: true
 			Layout.fillHeight: true
 			fillMode: Image.PreserveAspectFit
 
-			property string buttonState: "off"
-
-			states: [
-				State { name: 'off' },
-				State { name: 'on' }
-			]
-
 			MouseArea {
 				anchors.fill: parent
 				onClicked: {
-					leftSignal.buttonState = 'off';
-					brakeLights.buttonState = 'off';
-					rightSignal.buttonState = 'off';
-
-					parkingLights.buttonState = (parkingLights.buttonState === 'on') ? 'off' : 'on';
-					controlPanel.buttonClicked("parking_lights");
+					toggleParkingLights();
 				}
 			}
 		}
 
 
-		// ======================================================================================================= //
+		/* ----- Extra ------------------------------------------------------------------------- */
 		Image {
 			id: extra2
 			source: "images/extra.svg"
