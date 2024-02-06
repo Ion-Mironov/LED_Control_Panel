@@ -60,7 +60,7 @@ def clear_grid():
 
 
 # ======================================================================================================================================================== #
-### Sequential left turn signal ###
+# Sequential left turn signal #
 def left_turn_signal_on(grid):
 	pixel_color = Color(255, 70, 0)								# Define the color. (Orange)
 	for col_start in range(31, -1, -1):							# Iterating over each column right-to-left (← ← ←).
@@ -83,7 +83,7 @@ def left_turn_signal_off(grid):
 
 
 # ======================================================================================================================================================== #
-### Sequential right turn signal ###
+# Sequential right turn signal #
 def right_turn_signal_on(grid):
 	pixel_color = Color(255, 70, 0)
 	for col_start in range(0, 32):								# Iterating over each column left-to-right (→ → →)
@@ -106,7 +106,7 @@ def right_turn_signal_off(grid):
 
 
 # ======================================================================================================================================================== #
-### 3-3-1 flash brake light ###
+# 3-3-1 flash brake light #
 def brake_lights_on(grid):
 	pixel_color = Color(255, 0, 0)
 
@@ -142,7 +142,7 @@ def brake_lights_off(grid):
 
 
 # ======================================================================================================================================================== #
-### Parking lights ###
+# Parking lights #
 def parking_lights_on(grid):
 	set_brightness(10)
 	pixel_color = Color(255, 0, 0)
