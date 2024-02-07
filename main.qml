@@ -13,6 +13,57 @@ ApplicationWindow {
 		anchors.fill: parent
 	}
 
+	property bool leftSignalState: false
+	property bool rightSignalState: false
+	property bool thirdBrakeLightState: false
+	property bool rearParkingLightsState: false
+
+
+	/* ----- Left Turn Signal ---------------------------------------------------------------------------- */
+	function toggleLeftSignal() {
+		controlPanel.rightSignalOff();
+		controlPanel.thirdBrakeLightOff();
+		controlPanel.rearParkingLightsOff();
+
+		leftSignalState ? controlPanel.leftSignalOff() : controlPanel.leftSignalOn();
+		leftSignalState = !leftSignalState;
+	}
+
+
+	/* ----- Third Brake Light --------------------------------------------------------------------------- */
+	function toggleThirdBrakeLight() {
+		controlPanel.leftSignalOff();
+		controlPanel.rightSignalOff();
+		controlPanel.rearParkingLightsOff();
+
+		thirdBrakeLightState ? controlPanel.thirdBrakeLightOff() : controlPanel.thirdBrakeLightOn();
+		thirdBrakeLightState = !thirdBrakeLightState;
+	}
+
+
+	/* ----- Right Turn Signal --------------------------------------------------------------------------- */
+	function toggleRightSignal() {
+		controlPanel.leftSignalOff();
+		controlPanel.thirdBrakeLightOff();
+		controlPanel.rearParkingLightsOff();
+
+		rightSignalState ? controlPanel.rightSignalOff() : controlPanel.rightSignalOn();
+		rightSignalState = !rightSignalState;
+	}
+
+
+	/* ----- Rear Parking Lights ------------------------------------------------------------------------- */
+	function toggleRearParkingLights() {
+		controlPanel.leftSignalOff();
+		controlPanel.rightSignalOff();
+		controlPanel.thirdBrakeLightOff();
+
+		rearParkingLightsState ? controlPanel.rearParkingLightsOff() : controlPanel.rearParkingLightsOn();
+		rearParkingLightsState = !rearParkingLightsState;
+	}
+
+
+	// ===== Grid layout of buttons ====================================================================== //
 	GridLayout {
 		columns: 3
 		columnSpacing: 15
@@ -22,69 +73,14 @@ ApplicationWindow {
 		anchors.fill: parent
 
 
-		// Bool properties to hold each button's state
-		property bool leftSignalState: false
-		property bool rightSignalState: false
-		property bool brakeLightsState: false
-		property bool parkingLightsState: false
-
-
-		/* ----- Left Turn Signal -------------------------------------------------------------- */
-		// Function to toggle the LED animation on and off
-		function toggleLeftSignal() {
-
-			// Stop all other animations
-    		controlPanel.rightSignalOff();
-			controlPanel.brakeLightsOff();
-			controlPanel.parkingLightsOff();
-
-			leftSignalState ? controlPanel.leftSignalOn() : controlPanel.leftSignalOff();
-			leftSignalState = !leftSignalState;
-		}
-
-
-		/* ----- Brake Lights ------------------------------------------------------------------ */
-		function toggleBrakeLights() {
-			controlPanel.leftSignalOff();
-			controlPanel.rightSignalOff();;
-			controlPanel.parkingLightsOff();
-
-			brakeLightsState ? controlPanel.brakeLightsOn() : controlPanel.brakeLightsOff();
-			brakeLightsState = !brakeLightsState;
-		}
-
-
-		/* ----- Right Turn Signal ------------------------------------------------------------- */
-		function toggleRightSignal() {
-			controlPanel.leftSignalOff();
-			controlPanel.brakeLightsOff();
-			controlPanel.parkingLightsOff();
-
-			rightSignalState ? controlPanel.rightSignalOn() : controlPanel.rightSignalOff();
-			rightSignalState = !rightSignalState;
-		}
-
-
-		/* ----- Parking Lights ---------------------------------------------------------------- */
-		function toggleParkingLights() {
-			controlPanel.leftSignalOff();
-			controlPanel.rightSignalOff();;
-			controlPanel.brakeLightsOff();
-
-			parkingLightsState ? controlPanel.parkingLightsOn() : controlPanel.parkingLightsOff();
-			parkingLightsState = !parkingLightsState;
-		}
-
-
-
-		// Buttons
-
-		/* ----- Left Turn Signal -------------------------------------------------------------- */
+		/* ----- Left Turn Signal ------------------------------------------------------------------------ */
 		Image {
 			id: leftSignal
-			source: "images/left_" + (leftSignalState ? "on" : "off") + ".svg"
+			Layout.column: 0
+			Layout.row: 0
 			Layout.fillWidth: true
 			Layout.fillHeight: true
+			source: "images/left_" + (leftSignalState ? "on" : "off") + ".svg"
 			fillMode: Image.PreserveAspectFit
 
 			MouseArea {
@@ -97,29 +93,33 @@ ApplicationWindow {
 		}
 
 
-		/* ----- Brake Lights ------------------------------------------------------------------ */
+		/* ----- Brake Lights ---------------------------------------------------------------------------- */
 		Image {
-			id: brakeLights
-			source: "images/brake_" + (brakeLightsState ? "on" : "off") + ".svg"
+			id: thirdbrakeLight
+			Layout.column: 1
+			Layout.row: 0
 			Layout.fillWidth: true
 			Layout.fillHeight: true
+			source: "images/brake_" + (thirdBrakeLightState ? "on" : "off") + ".svg"
 			fillMode: Image.PreserveAspectFit
 
 			MouseArea {
 				anchors.fill: parent
 				onClicked: {
-					toggleBrakeLights();
+					toggleThirdBrakeLight();
 				}
 			}
 		}
 
 
-		/* ----- Right Turn Signal ------------------------------------------------------------- */
+		/* ----- Right Turn Signal ----------------------------------------------------------------------- */
 		Image {
 			id: rightSignal
-			source: "images/right_" + (rightSignalState ? "on" : "off") + ".svg"
+			Layout.column: 2
+			Layout.row: 0
 			Layout.fillWidth: true
 			Layout.fillHeight: true
+			source: "images/right_" + (rightSignalState ? "on" : "off") + ".svg"
 			fillMode: Image.PreserveAspectFit
 
 			MouseArea {
@@ -131,39 +131,45 @@ ApplicationWindow {
 		}
 
 
-		/* ----- Extra ------------------------------------------------------------------------- */
+		/* ----- Extra 1 --------------------------------------------------------------------------------- */
 		Image {
 			id: extra1
-			source: "images/extra.svg"
+			Layout.column: 0
+			Layout.row: 1
 			Layout.fillWidth: true
 			Layout.fillHeight: true
+			source: "images/extra.svg"
 			fillMode: Image.PreserveAspectFit
 		}
 
 
-		/* ----- Parking Lights ---------------------------------------------------------------- */
+		/* ----- Parking Lights -------------------------------------------------------------------------- */
 		Image {
-			id: parkingLights
-			source: "images/right_" + (parkingLightsState ? "on" : "off") + ".svg"
+			id: rearParkingLights
+			Layout.column: 1
+			Layout.row: 1
 			Layout.fillWidth: true
 			Layout.fillHeight: true
+			source: "images/parking_" + (rearParkingLightsState ? "on" : "off") + ".svg"
 			fillMode: Image.PreserveAspectFit
 
 			MouseArea {
 				anchors.fill: parent
 				onClicked: {
-					toggleParkingLights();
+					toggleRearParkingLights();
 				}
 			}
 		}
 
 
-		/* ----- Extra ------------------------------------------------------------------------- */
+		/* ----- Extra 2 --------------------------------------------------------------------------------- */
 		Image {
 			id: extra2
-			source: "images/extra.svg"
+			Layout.column: 2
+			Layout.row: 1
 			Layout.fillWidth: true
 			Layout.fillHeight: true
+			source: "images/extra.svg"
 			fillMode: Image.PreserveAspectFit
 		}
 	}

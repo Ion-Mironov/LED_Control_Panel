@@ -14,9 +14,11 @@ LED_BRIGHTNESS = 25			# Set to '0' for off and '255' for ultra-brightness. '25' 
 LED_CHANNEL = 0				# Set to '1' for GPIO 13 (which is physical pin 13).
 
 
+
 """ Initialize the LED grid """
 grid = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
 grid.begin()
+
 
 
 """ Function to retrieve the LED index based on row and column """
@@ -50,12 +52,14 @@ def set_brightness(value):
 	grid.setBrightness(value)
 
 
+
 """ Function to turn off all LEDs """
 def clear_grid():
 	for row in range(8):												# 8 rows as per lookup_table.
 		for col in range(32):											# 32 columns as per lookup_table.
 			index = get_led_index(row, col)
 			grid.setPixelColor(index, Color(0, 0, 0))
+
 
 
 
@@ -107,7 +111,7 @@ def right_turn_signal_off(grid):
 
 # ======================================================================================================================================================== #
 # 3-3-1 flash brake light #
-def brake_lights_on(grid):
+def third_brake_light_on(grid):
 	pixel_color = Color(255, 0, 0)
 
 	# Flash rapidly 3 times
@@ -135,7 +139,7 @@ def brake_lights_on(grid):
 	grid.show()
 
 
-def brake_lights_off(grid):
+def third_brake_light_off(grid):
 	clear_grid()
 	grid.show()
 
@@ -143,13 +147,13 @@ def brake_lights_off(grid):
 
 # ======================================================================================================================================================== #
 # Parking lights #
-def parking_lights_on(grid):
+def rear_parking_lights_on(grid):
 	set_brightness(10)
 	pixel_color = Color(255, 0, 0)
 	pixel_setup((0, 0), (7, 31), pixel_color)
 	grid.show()
 
 
-def parking_lights_off(grid):
+def rear_parking_lights_off(grid):
 	clear_grid()
 	grid.show()

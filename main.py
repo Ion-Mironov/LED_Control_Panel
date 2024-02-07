@@ -2,7 +2,7 @@
 
 import sys
 from pathlib import Path
-from led_matrix import grid, left_turn_signal_on, left_turn_signal_off, right_turn_signal_on, right_turn_signal_off, brake_lights_on, brake_lights_off, parking_lights_on, parking_lights_off
+from led_matrix import grid, left_turn_signal_on, left_turn_signal_off, right_turn_signal_on, right_turn_signal_off, third_brake_light_on, third_brake_light_off, rear_parking_lights_on, rear_parking_lights_off
 
 from PySide6.QtCore import QObject, Slot
 from PySide6.QtGui import QGuiApplication
@@ -18,41 +18,41 @@ class ControlPanel(QObject):
 # --- Left Turn Signal button ------ #
 	@Slot()
 	def leftSignalOn(self):
-		left_turn_signal_on()(grid)
+		left_turn_signal_on(grid)
 	
 	@Slot()
 	def leftSignalOff(self):
-		left_turn_signal_off()(grid)
+		left_turn_signal_off(grid)
 
 
 # --- Right Turn Signal button ----- #
 	@Slot()
 	def rightSignalOn(self):
-		right_turn_signal_on()(grid)
+		right_turn_signal_on(grid)
 	
 	@Slot()
 	def rightSignalOff(self):
-		right_turn_signal_off()(grid)
+		right_turn_signal_off(grid)
 
 
-# --- Brake Lights button ---------- #
+# --- Third Brake Light button ---------- #
 	@Slot()
-	def brakeLightsOn(self):
-		brake_lights_on()()(grid)
+	def thirdBrakeLightOn(self):
+		third_brake_light_on(grid)
 	
 	@Slot()
-	def brakeLightsOff(self):
-		brake_lights_off()()(grid)
+	def thirdBrakeLightOff(self):
+		third_brake_light_off(grid)
 
 
-# --- Parking Lights button -------- #
+# --- Rear Parking Lights button -------- #
 	@Slot()
-	def parkingLightsOn(self):
-		parking_lights_on(grid)
+	def rearParkingLightsOn(self):
+		rear_parking_lights_on(grid)
 	
 	@Slot()
-	def parkingLightsOff(self):
-		parking_lights_off(grid)
+	def rearParkingLightsOff(self):
+		rear_parking_lights_off(grid)
 
 
 
