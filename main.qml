@@ -13,57 +13,6 @@ ApplicationWindow {
 		anchors.fill: parent
 	}
 
-	property bool leftSignalState: false
-	property bool rightSignalState: false
-	property bool thirdBrakeLightState: false
-	property bool rearParkingLightsState: false
-
-
-	/* ----- Left Turn Signal ---------------------------------------------------------------------------- */
-	function toggleLeftSignal() {
-		controlPanel.rightSignalOff();
-		controlPanel.thirdBrakeLightOff();
-		controlPanel.rearParkingLightsOff();
-
-		leftSignalState ? controlPanel.leftSignalOff() : controlPanel.leftSignalOn();
-		leftSignalState = !leftSignalState;
-	}
-
-
-	/* ----- Third Brake Light --------------------------------------------------------------------------- */
-	function toggleThirdBrakeLight() {
-		controlPanel.leftSignalOff();
-		controlPanel.rightSignalOff();
-		controlPanel.rearParkingLightsOff();
-
-		thirdBrakeLightState ? controlPanel.thirdBrakeLightOff() : controlPanel.thirdBrakeLightOn();
-		thirdBrakeLightState = !thirdBrakeLightState;
-	}
-
-
-	/* ----- Right Turn Signal --------------------------------------------------------------------------- */
-	function toggleRightSignal() {
-		controlPanel.leftSignalOff();
-		controlPanel.thirdBrakeLightOff();
-		controlPanel.rearParkingLightsOff();
-
-		rightSignalState ? controlPanel.rightSignalOff() : controlPanel.rightSignalOn();
-		rightSignalState = !rightSignalState;
-	}
-
-
-	/* ----- Rear Parking Lights ------------------------------------------------------------------------- */
-	function toggleRearParkingLights() {
-		controlPanel.leftSignalOff();
-		controlPanel.rightSignalOff();
-		controlPanel.thirdBrakeLightOff();
-
-		rearParkingLightsState ? controlPanel.rearParkingLightsOff() : controlPanel.rearParkingLightsOn();
-		rearParkingLightsState = !rearParkingLightsState;
-	}
-
-
-	// ===== Grid layout of buttons ====================================================================== //
 	GridLayout {
 		columns: 3
 		columnSpacing: 15
@@ -73,65 +22,64 @@ ApplicationWindow {
 		anchors.fill: parent
 
 
-		/* ----- Left Turn Signal ------------------------------------------------------------------------ */
+		/* ----- Left Turn Signal ---------------------------------------------------------------------------------------------------------- */
 		Image {
 			id: leftSignal
 			Layout.column: 0
 			Layout.row: 0
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			source: "images/left_" + (leftSignalState ? "on" : "off") + ".svg"
+			source: "images/left_off.svg"
 			fillMode: Image.PreserveAspectFit
 
 			MouseArea {
 				anchors.fill: parent
 
 				onClicked: {
-					toggleLeftSignal();
+					controlPanel.handleButtonPress(1);				// Directly call a function in Python to handle the signal logic
 				}
 			}
 		}
 
-
-		/* ----- Brake Lights ---------------------------------------------------------------------------- */
+		/* ----- Parking Lights ------------------------------------------------------------------------------------------------------------ */
 		Image {
-			id: thirdbrakeLight
+			id: rearParkingLights
 			Layout.column: 1
 			Layout.row: 0
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			source: "images/brake_" + (thirdBrakeLightState ? "on" : "off") + ".svg"
+			source: "images/parking_off.svg"
 			fillMode: Image.PreserveAspectFit
 
 			MouseArea {
 				anchors.fill: parent
+
 				onClicked: {
-					toggleThirdBrakeLight();
+					controlPanel.handleButtonPress(2);
 				}
 			}
 		}
 
-
-		/* ----- Right Turn Signal ----------------------------------------------------------------------- */
+		/* ----- Right Turn Signal --------------------------------------------------------------------------------------------------------- */
 		Image {
 			id: rightSignal
 			Layout.column: 2
 			Layout.row: 0
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			source: "images/right_" + (rightSignalState ? "on" : "off") + ".svg"
+			source: "images/right_off.svg"
 			fillMode: Image.PreserveAspectFit
 
 			MouseArea {
 				anchors.fill: parent
+
 				onClicked: {
-					toggleRightSignal();
+					controlPanel.handleButtonPress(3);
 				}
 			}
 		}
 
-
-		/* ----- Extra 1 --------------------------------------------------------------------------------- */
+		/* ----- Extra 1 ------------------------------------------------------------------------------------------------------------------- */
 		Image {
 			id: extra1
 			Layout.column: 0
@@ -142,27 +90,26 @@ ApplicationWindow {
 			fillMode: Image.PreserveAspectFit
 		}
 
-
-		/* ----- Parking Lights -------------------------------------------------------------------------- */
+		/* ----- Brake Lights -------------------------------------------------------------------------------------------------------------- */
 		Image {
-			id: rearParkingLights
+			id: thirdBrakeLight
 			Layout.column: 1
 			Layout.row: 1
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			source: "images/parking_" + (rearParkingLightsState ? "on" : "off") + ".svg"
+			source: "images/brake_off.svg"
 			fillMode: Image.PreserveAspectFit
 
 			MouseArea {
 				anchors.fill: parent
+
 				onClicked: {
-					toggleRearParkingLights();
+					controlPanel.handleButtonPress(4);
 				}
 			}
 		}
 
-
-		/* ----- Extra 2 --------------------------------------------------------------------------------- */
+		/* ----- Extra 2 ------------------------------------------------------------------------------------------------------------------- */
 		Image {
 			id: extra2
 			Layout.column: 2
@@ -171,6 +118,22 @@ ApplicationWindow {
 			Layout.fillHeight: true
 			source: "images/extra.svg"
 			fillMode: Image.PreserveAspectFit
+		}
+	}
+
+	/* Signals linked to `Control Panel` in main.py */
+	Connections {
+		target: controlPanel
+		function onAnimationStateChanged(animationId, newState) {
+			if (animationId === 1) {
+				leftSignal.source = "images/left_" + (newState ? "on" : "off") + ".svg";
+			} else if (animationId === 2) {
+				rearParkingLights.source = "images/parking_" + (newState ? "on" : "off") + ".svg";
+			} else if (animationId === 3) {
+				rightSignal.source = "images/right_" + (newState ? "on" : "off") + ".svg";
+			} else if (animationId === 4) {
+				thirdBrakeLight.source = "images/brake_" + (newState ? "on" : "off") + ".svg";
+			}
 		}
 	}
 }

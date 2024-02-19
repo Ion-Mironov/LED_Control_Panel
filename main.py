@@ -1,59 +1,66 @@
 #### Must run this script with `sudo` ####
 
 import sys
+import threading
 from pathlib import Path
-from led_matrix import grid, left_turn_signal_on, left_turn_signal_off, right_turn_signal_on, right_turn_signal_off, third_brake_light_on, third_brake_light_off, rear_parking_lights_on, rear_parking_lights_off
-
-from PySide6.QtCore import QObject, Slot
+from led_matrix import grid, left_turn_signal, right_turn_signal, third_brake_light, rear_parking_lights, stop_animation
+from PySide6.QtCore import QObject, Slot, Signal
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
 
 
-
 class ControlPanel(QObject):
+	animationStateChanged = Signal(int, bool)				# Signal to communicate animation state changes
+
 	def __init__(self):
 		super().__init__()
+		self.current_animation_id = None					# Track the current animation by ID
+		self.animation_thread = None
 
 
-# --- Left Turn Signal button ------ #
-	@Slot()
-	def leftSignalOn(self):
-		left_turn_signal_on(grid)
-	
-	@Slot()
-	def leftSignalOff(self):
-		left_turn_signal_off(grid)
+	def start_animation(self, animation_function, animation_id):
+
+		# Check if the same button was pressed again to stop the current animation
+		if self.current_animation_id == animation_id:
+			self.stop_animation()
+			self.animationStateChanged.emit(animation_id, False)
+			self.current_animation_id = None
+			return
+
+		# Stop any currently running animation before starting a new one
+		if self.animation_thread is not None:
+			self.stop_animation()
+
+			# Emit signal to update the state of the previously active button to "off"
+			if self.current_animation_id is not None:
+				self.animationStateChanged.emit(self.current_animation_id, False)
+
+		# Start the new animation
+		self.current_animation_id = animation_id
+		self.animation_thread = threading.Thread(target = animation_function, args = (grid,))
+		self.animation_thread.start()
+
+		# Emit signal to update the state of the new button to "on"
+		self.animationStateChanged.emit(animation_id, True)
 
 
-# --- Right Turn Signal button ----- #
-	@Slot()
-	def rightSignalOn(self):
-		right_turn_signal_on(grid)
-	
-	@Slot()
-	def rightSignalOff(self):
-		right_turn_signal_off(grid)
+	def stop_animation(self):
+		stop_animation()									# Signal the animation to stop
+		if self.animation_thread is not None:
+			self.animation_thread.join()
+			self.animation_thread = None
 
 
-# --- Third Brake Light button ---------- #
-	@Slot()
-	def thirdBrakeLightOn(self):
-		third_brake_light_on(grid)
-	
-	@Slot()
-	def thirdBrakeLightOff(self):
-		third_brake_light_off(grid)
-
-
-# --- Rear Parking Lights button -------- #
-	@Slot()
-	def rearParkingLightsOn(self):
-		rear_parking_lights_on(grid)
-	
-	@Slot()
-	def rearParkingLightsOff(self):
-		rear_parking_lights_off(grid)
-
+	@Slot(int)
+	def handleButtonPress(self, buttonId):
+		if buttonId == 1:
+			self.start_animation(left_turn_signal, 1)
+		elif buttonId == 2:
+			self.start_animation(rear_parking_lights, 2)
+		elif buttonId == 3:
+			self.start_animation(right_turn_signal, 3)
+		elif buttonId == 4:
+			self.start_animation(third_brake_light, 4)
 
 
 if __name__ == "__main__":
@@ -63,8 +70,8 @@ if __name__ == "__main__":
 	controlPanel = ControlPanel()
 	engine.rootContext().setContextProperty("controlPanel", controlPanel)
 
-	qml_file = Path(__file__).parent / "main.qml"
-	engine.load("main.qml")
+	qml_file = Path(__file__).resolve().parent / "main.qml"
+	engine.load(qml_file)
 
 	if not engine.rootObjects():
 		sys.exit(-1)
