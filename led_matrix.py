@@ -130,36 +130,6 @@ def right_turn_signal(grid):
 
 # ======================================================================================================================================================== #
 # 3-3-1 flash brake light #
-# def third_brake_light(grid):
-# 	global animation_running
-# 	animation_running = True
-# 	pixel_color = Color(255, 0, 0)
-
-# 	# Flash rapidly 3 times
-# 	for _ in range(3):
-# 		pixel_setup((0, 0), (7, 31), pixel_color)				# Alternate way to define and display the color of the desired grid coordinates.
-# 		grid.show()
-# 		time.sleep(0.1)											# How long LEDs are on during flashing sequence.
-
-# 		clear_grid()
-# 		grid.show()
-# 		time.sleep(0.1)											# How long LEDs are off during flashing sequence.
-
-# 	# Flash normally 3 times
-# 	for _ in range(3):
-# 		pixel_setup((0, 0), (7, 31), pixel_color)
-# 		grid.show()
-# 		time.sleep(0.3)
-
-# 		clear_grid()
-# 		grid.show()
-# 		time.sleep(0.3)
-
-# 	# Remain constantly lit
-# 	pixel_setup((0, 0), (7, 31), pixel_color)
-# 	grid.show()
-
-
 def third_brake_light(grid):
 	global animation_running
 	animation_running = True
@@ -174,32 +144,32 @@ def third_brake_light(grid):
 
 	# Flash rapidly 3 times
 	for _ in range(3):
-		if check_and_clear(): return  # Check if animation should stop
-		pixel_setup((0, 0), (7, 31), pixel_color)
+		if check_and_clear(): return								# Check if animation should stop.
+		pixel_setup((0, 0), (7, 31), pixel_color)					# Alternate way to set pixel layout.
 		grid.show()
-		time.sleep(0.1)  # How long LEDs are on during flashing sequence.
-		if check_and_clear(): return  # Check if animation should stop
+		time.sleep(0.1)												# How long LEDs are on during flashing sequence.
+		if check_and_clear(): return
 
 		clear_grid()
 		grid.show()
-		time.sleep(0.1)  # How long LEDs are off during flashing sequence.
-		if check_and_clear(): return  # Check if animation should stop
+		time.sleep(0.1)												# How long LEDs are off during flashing sequence.
+		if check_and_clear(): return
 
 	# Flash normally 3 times
 	for _ in range(3):
-		if check_and_clear(): return  # Check if animation should stop
+		if check_and_clear(): return
 		pixel_setup((0, 0), (7, 31), pixel_color)
 		grid.show()
 		time.sleep(0.3)
-		if check_and_clear(): return  # Check if animation should stop
+		if check_and_clear(): return
 
 		clear_grid()
 		grid.show()
 		time.sleep(0.3)
-		if check_and_clear(): return  # Check if animation should stop
+		if check_and_clear(): return
 
 	# Remain constantly lit
-	if check_and_clear(): return  # Check if animation should stop
+	if check_and_clear(): return
 	pixel_setup((0, 0), (7, 31), pixel_color)
 	grid.show()
 
