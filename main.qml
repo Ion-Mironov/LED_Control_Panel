@@ -9,7 +9,7 @@ ApplicationWindow {
 	visibility: Window.Maximized
 
 	Image {
-		source: "images/background.svg"
+		source: "images/background.png"
 		anchors.fill: parent
 	}
 
@@ -29,7 +29,7 @@ ApplicationWindow {
 			Layout.row: 0
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			source: "images/left_off.svg"
+			source: "images/left_off.png"
 			fillMode: Image.PreserveAspectFit
 
 			MouseArea {
@@ -48,7 +48,7 @@ ApplicationWindow {
 			Layout.row: 0
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			source: "images/parking_off.svg"
+			source: "images/parking_off.png"
 			fillMode: Image.PreserveAspectFit
 
 			MouseArea {
@@ -67,7 +67,7 @@ ApplicationWindow {
 			Layout.row: 0
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			source: "images/right_off.svg"
+			source: "images/right_off.png"
 			fillMode: Image.PreserveAspectFit
 
 			MouseArea {
@@ -86,7 +86,7 @@ ApplicationWindow {
 			Layout.row: 1
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			source: "images/extra.svg"
+			source: "images/extra.png"
 			fillMode: Image.PreserveAspectFit
 		}
 
@@ -97,7 +97,7 @@ ApplicationWindow {
 			Layout.row: 1
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			source: "images/brake_off.svg"
+			source: "images/brake_off.png"
 			fillMode: Image.PreserveAspectFit
 
 			MouseArea {
@@ -116,7 +116,7 @@ ApplicationWindow {
 			Layout.row: 1
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			source: "images/extra.svg"
+			source: "images/extra.png"
 			fillMode: Image.PreserveAspectFit
 		}
 	}
@@ -126,13 +126,13 @@ ApplicationWindow {
 		target: controlPanel
 		function onAnimationStateChanged(animationId, newState) {
 			if (animationId === 1) {
-				leftSignal.source = "images/left_" + (newState ? "on" : "off") + ".svg";
+				leftSignal.source = "images/left_" + (newState ? "on" : "off") + ".png";
 			} else if (animationId === 2) {
-				rearParkingLights.source = "images/parking_" + (newState ? "on" : "off") + ".svg";
+				rearParkingLights.source = "images/parking_" + (newState ? "on" : "off") + ".png";
 			} else if (animationId === 3) {
-				rightSignal.source = "images/right_" + (newState ? "on" : "off") + ".svg";
+				rightSignal.source = "images/right_" + (newState ? "on" : "off") + ".png";
 			} else if (animationId === 4) {
-				thirdBrakeLight.source = "images/brake_" + (newState ? "on" : "off") + ".svg";
+				thirdBrakeLight.source = "images/brake_" + (newState ? "on" : "off") + ".png";
 			}
 		}
 	}
