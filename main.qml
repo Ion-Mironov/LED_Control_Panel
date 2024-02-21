@@ -92,7 +92,7 @@ ApplicationWindow {
 
 		/* ----- Brake Lights -------------------------------------------------------------------------------------------------------------- */
 		Image {
-			id: thirdBrakeLight
+			id: sequentialBrakeLights
 			Layout.column: 1
 			Layout.row: 1
 			Layout.fillWidth: true
@@ -132,7 +132,7 @@ ApplicationWindow {
 			} else if (animationId === 3) {
 				rightSignal.source = "images/right_" + (newState ? "on" : "off") + ".png";
 			} else if (animationId === 4) {
-				thirdBrakeLight.source = "images/brake_" + (newState ? "on" : "off") + ".png";
+				sequentialBrakeLights.source = "images/brake_" + (newState ? "on" : "off") + ".png";
 			}
 		}
 	}
