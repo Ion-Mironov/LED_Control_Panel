@@ -13,6 +13,8 @@ ApplicationWindow {
 		anchors.fill: parent
 	}
 
+	// property bool leftSignalOn: false
+
 	GridLayout {
 		columns: 3
 		columnSpacing: 15
@@ -35,8 +37,17 @@ ApplicationWindow {
 			MouseArea {
 				anchors.fill: parent
 
+				// onPressed: {
+				// 	if (controlPanel.isAnimationOn(1)) {
+				// 		leftSignal.source = "images/left_off.png";
+				// 	} else {
+				// 		leftSignal.source = "images/left_on.png";
+				// 	}
+				// }
+
 				onClicked: {
-					controlPanel.handleButtonPress(1);				// Directly call a function in Python to handle the signal logic
+					leftSignalOn = !leftSignalOn;
+					controlPanel.handleButtonPress(1);						// Directly call a function in Python to handle the signal logic
 				}
 			}
 		}
