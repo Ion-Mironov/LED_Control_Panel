@@ -46,7 +46,7 @@ ApplicationWindow {
 				// }
 
 				onClicked: {
-					leftSignalOn = !leftSignalOn;
+					// leftSignalOn = !leftSignalOn;
 					controlPanel.handleButtonPress(1);						// Directly call a function in Python to handle the signal logic
 				}
 			}

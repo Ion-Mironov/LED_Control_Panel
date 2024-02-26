@@ -3,7 +3,7 @@
 import sys
 import threading
 from pathlib import Path
-from led_matrix import grid, left_turn_signal, right_turn_signal, sequential_brake_lights, rear_parking_lights, emergency_lights, stop_animation
+from led_matrix import grid, left_turn_signal, right_turn_signal, sequential_brake_lights, front_parking_lights, rear_parking_lights, emergency_lights, stop_animation
 from PySide6.QtCore import QObject, Slot, Signal
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
@@ -59,12 +59,12 @@ class ControlPanel(QObject):
 		elif buttonId == 3:
 			self.start_animation(right_turn_signal, 3)
 		elif buttonId == 4:
-			self.start_animation(emergency_lights, 4)
+			self.start_animation(sequential_brake_lights, 4)
 
 
-	# @Slot(int, result=bool)
-	# def isAnimationOn(self, animationId):
-	# 	return self.current_animation_id == animationId
+	@Slot(int, result=bool)
+	def isAnimationOn(self, animationId):
+		return self.current_animation_id == animationId
 
 
 if __name__ == "__main__":
