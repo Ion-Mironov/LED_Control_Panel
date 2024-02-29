@@ -101,16 +101,6 @@ def set_brightness(value):
 	grid.setBrightness(value)
 
 
-
-# """ Turn off all LEDs """
-# def clear_grid():
-# 	for row in range(8):													# 8 rows as per lookup_table template.
-# 		for col in range(32):												# 32 columns as per lookup_table template.
-# 			index = get_led_index1(row, col)
-# 			grid.setPixelColor(index, Color(0, 0, 0))
-
-
-
 """ Turn off all LEDs """
 def clear_grid():
 	pixels_off = Color(0, 0, 0)
@@ -281,6 +271,7 @@ def front_parking_lights(grid):
 	set_brightness(10)
 	pixel_color = Color(255, 100, 0)
 	pixel_setup1((0, 0), (7, 31), pixel_color)
+	pixel_setup3((0, 0), (7, 31), pixel_color)
 	grid.show()
 
 
