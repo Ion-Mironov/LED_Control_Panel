@@ -13,7 +13,6 @@ ApplicationWindow {
 		anchors.fill: parent
 	}
 
-	// property bool leftSignalOn: false
 
 	GridLayout {
 		columns: 3
@@ -37,16 +36,7 @@ ApplicationWindow {
 			MouseArea {
 				anchors.fill: parent
 
-				// onPressed: {
-				// 	if (controlPanel.isAnimationOn(1)) {
-				// 		leftSignal.source = "images/left_off.png";
-				// 	} else {
-				// 		leftSignal.source = "images/left_on.png";
-				// 	}
-				// }
-
 				onClicked: {
-					// leftSignalOn = !leftSignalOn;
 					controlPanel.handleButtonPress(1);						// Directly call a function in Python to handle the signal logic
 				}
 			}
@@ -103,7 +93,7 @@ ApplicationWindow {
 
 		/* ----- Brake Lights -------------------------------------------------------------------------------------------------------------- */
 		Image {
-			id: sequentialBrakeLights
+			id: brakeLights
 			Layout.column: 1
 			Layout.row: 1
 			Layout.fillWidth: true
@@ -143,7 +133,7 @@ ApplicationWindow {
 			} else if (animationId === 3) {
 				rightSignal.source = "images/right_" + (newState ? "on" : "off") + ".png";
 			} else if (animationId === 4) {
-				sequentialBrakeLights.source = "images/brake_" + (newState ? "on" : "off") + ".png";
+				brakeLights.source = "images/brake_" + (newState ? "on" : "off") + ".png";
 			}
 		}
 	}

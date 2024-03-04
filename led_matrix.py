@@ -7,11 +7,11 @@ from rpi_ws281x import PixelStrip, Color
 """ Global LED grid (PixelStrip) configuration """
 LED_COUNT = 768				# Number of LED pixels.
 LED_PIN = 18				# GPIO pin connected to the pixels (This is physical pin 12). GPIO 18 is the default for PWM0.
-LED_FREQ_HZ = 800000		# LED signal frequency in Hertz (usually 800kHz).
+LED_FREQ_HZ = 800000		# LED signal frequency in Hertz (Default is 800kHz).
 LED_DMA = 10				# DMA channel to use for generating signal.
-LED_INVERT = False			# Set to 'True' to invert the signal (when using NPN transistor level shift).
-LED_BRIGHTNESS = 255		# Set to '0' for off and '255' for ultra-brightness. '25' is good for testing purposes.
-LED_CHANNEL = 0				# Set to '1' for GPIO 13 (which is physical pin 33).
+LED_INVERT = False			# Set to 'True' to invert the signal (Only done when using a level shifter).
+LED_BRIGHTNESS = 255		# Set to '0' for off and '255' for ultra-brightness.
+LED_CHANNEL = 0				# Set to '1' for GPIO 13 (Physical pin 33).
 
 
 
@@ -26,7 +26,7 @@ animation_running = False
 
 
 # ===== FUNCTIONS ======================================================================================================================================== #
-""" Retrieve the LED index based on row and column and which LED panel to use """
+""" Retrieve the LED index based on row and column along with which LED panel to use """
 
 ### LED PANEL 1 ###
 def get_led_index1(row, col):
@@ -285,6 +285,7 @@ def rear_parking_lights(grid):
 	set_brightness(10)
 	pixel_color = Color(255, 0, 0)
 	pixel_setup1((0, 0), (7, 31), pixel_color)
+	pixel_setup3((0, 0), (7, 31), pixel_color)
 	grid.show()
 
 
