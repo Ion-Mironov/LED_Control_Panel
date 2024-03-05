@@ -23,7 +23,7 @@ ApplicationWindow {
 		anchors.fill: parent
 
 
-		/* ----- Left Turn Signal ---------------------------------------------------------------------------------------------------------- */
+		/* ----- Left Turn Signal ----------------------------------------------------------------------------------------------------------- */
 		Image {
 			id: leftSignal
 			Layout.column: 0
@@ -42,9 +42,9 @@ ApplicationWindow {
 			}
 		}
 
-		/* ----- Parking Lights ------------------------------------------------------------------------------------------------------------ */
+		/* ----- Front Parking Lights ------------------------------------------------------------------------------------------------------- */
 		Image {
-			id: rearParkingLights
+			id: frontParkingLights
 			Layout.column: 1
 			Layout.row: 0
 			Layout.fillWidth: true
@@ -61,7 +61,7 @@ ApplicationWindow {
 			}
 		}
 
-		/* ----- Right Turn Signal --------------------------------------------------------------------------------------------------------- */
+		/* ----- Right Turn Signal ---------------------------------------------------------------------------------------------------------- */
 		Image {
 			id: rightSignal
 			Layout.column: 2
@@ -80,21 +80,10 @@ ApplicationWindow {
 			}
 		}
 
-		/* ----- Extra 1 ------------------------------------------------------------------------------------------------------------------- */
+		/* ----- Sequential Brake Lights ---------------------------------------------------------------------------------------------------- */
 		Image {
-			id: extra1
+			id: sequentialBrakeLights
 			Layout.column: 0
-			Layout.row: 1
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			source: "images/extra.png"
-			fillMode: Image.PreserveAspectFit
-		}
-
-		/* ----- Brake Lights -------------------------------------------------------------------------------------------------------------- */
-		Image {
-			id: brakeLights
-			Layout.column: 1
 			Layout.row: 1
 			Layout.fillWidth: true
 			Layout.fillHeight: true
@@ -110,31 +99,63 @@ ApplicationWindow {
 			}
 		}
 
-		/* ----- Extra 2 ------------------------------------------------------------------------------------------------------------------- */
+		/* ----- Rear Parking Lights ------------------------------------------------------------------------------------------------------------ */
 		Image {
-			id: extra2
+			id: rearParkingLights
+			Layout.column: 1
+			Layout.row: 1
+			Layout.fillWidth: true
+			Layout.fillHeight: true
+			source: "images/parking_off.png"
+			fillMode: Image.PreserveAspectFit
+
+			MouseArea {
+				anchors.fill: parent
+
+				onClicked: {
+					controlPanel.handleButtonPress(5);
+				}
+			}
+		}
+
+		/* ----- 3-3-1 Third Brake Light ---------------------------------------------------------------------------------------------------- */
+		Image {
+			id: thirdBrakeLight
 			Layout.column: 2
 			Layout.row: 1
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			source: "images/extra.png"
+			source: "images/brake_off.png"
 			fillMode: Image.PreserveAspectFit
+
+			MouseArea {
+				anchors.fill: parent
+
+				onClicked: {
+					controlPanel.handleButtonPress(6);
+				}
+			}
 		}
 	}
 
-	/* Signals linked to `Control Panel` in main.py */
+	/* Signals linked to 'Control Panel' in `main.py` */
 	Connections {
 		target: controlPanel
 		function onAnimationStateChanged(animationId, newState) {
 			if (animationId === 1) {
 				leftSignal.source = "images/left_" + (newState ? "on" : "off") + ".png";
 			} else if (animationId === 2) {
-				rearParkingLights.source = "images/parking_" + (newState ? "on" : "off") + ".png";
+				frontParkingLights.source = "images/parking_" + (newState ? "on" : "off") + ".png";
 			} else if (animationId === 3) {
 				rightSignal.source = "images/right_" + (newState ? "on" : "off") + ".png";
 			} else if (animationId === 4) {
-				brakeLights.source = "images/brake_" + (newState ? "on" : "off") + ".png";
+				sequentialBrakeLights.source = "images/brake_" + (newState ? "on" : "off") + ".png";
+			} else if (animationId === 5) {
+				rearParkingLights.source = "images/parking_" + (newState ? "on" : "off") + ".png";
+			} else if (animationId === 6) {
+				thirdBrakeLight.source = "images/brake_" + (newState ? "on" : "off") + ".png";
 			}
+			
 		}
 	}
 }
