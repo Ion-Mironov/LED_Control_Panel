@@ -3,7 +3,7 @@
 import sys
 import threading
 from pathlib import Path
-from led_matrix import grid, stop_animation, left_turn_signal, front_parking_lights, right_turn_signal, sequential_brake_lights, third_brake_light, rear_parking_lights
+from led_matrix import pixels, stop_animation, left_turn_signal, front_parking_lights, right_turn_signal, sequential_brake_lights, third_brake_light, rear_parking_lights
 from PySide6.QtCore import QObject, Slot, Signal
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
@@ -37,7 +37,7 @@ class ControlPanel(QObject):
 
 		# Start the new animation
 		self.current_animation_id = animation_id
-		self.animation_thread = threading.Thread(target = animation_function, args = (grid,))
+		self.animation_thread = threading.Thread(target = animation_function, args = (pixels,))
 		self.animation_thread.start()
 
 		self.animationStateChanged.emit(animation_id, True)					# Emit signal to update the state of the new button to "on"
@@ -66,7 +66,7 @@ class ControlPanel(QObject):
 			self.start_animation(third_brake_light, 6)
 
 
-	@Slot(int, result=bool)
+	@Slot(int, result = bool)
 	def isAnimationOn(self, animationId):
 		return self.current_animation_id == animationId
 

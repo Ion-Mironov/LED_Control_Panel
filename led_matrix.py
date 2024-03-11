@@ -1,23 +1,16 @@
-#### Must run this script with `sudo` ####
+# ================================================================================================================================================================= #
+# Ensure ground wire (white) is connected to physical pin 6, clock wire (blue) is connected to physical pin 23, and data wire (green) is connected to physical pin 19
+# ================================================================================================================================================================= #
 
+
+
+import board
+import adafruit_dotstar as dotstar
 import time
-from rpi_ws281x import PixelStrip, Color
 
 
-""" Global LED grid (PixelStrip) configuration """
-LED_COUNT = 768				# Number of LED pixels.
-LED_PIN = 18				# GPIO pin connected to the pixels (This is physical pin 12). GPIO 18 is the default for PWM0.
-LED_FREQ_HZ = 800000		# LED signal frequency in Hertz (Default is 800kHz).
-LED_DMA = 10				# DMA channel to use for generating signal.
-LED_INVERT = False			# Set to 'True' to invert the signal (Only done when using a level shifter).
-LED_BRIGHTNESS = 255		# Set to '0' for off and '255' for ultra-brightness.
-LED_CHANNEL = 0				# Set to '1' for GPIO 13 (Physical pin 33).
-
-
-
-""" Initialize the LED grid """
-grid = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
-grid.begin()
+num_pixels = 256
+pixels = dotstar.DotStar(board.SCK, board.MOSI, num_pixels, brightness = 1.0)
 
 
 """ Set the default state of all animations to 'False' """
@@ -75,72 +68,66 @@ def get_led_index3(row, col):
 	]
 	return lookup_table3[row][col]
 
-
 """ Set the color of a specified rectangular area within the LED panel """
 def pixel_setup1(top_pixel, bottom_pixel, color):
 	for row in range(top_pixel[0], bottom_pixel[0] + 1):
 		for col in range(top_pixel[1], bottom_pixel[1] + 1):
-			index = get_led_index1(row, col)
-			grid.setPixelColor(index, color)
+			index = get_led_index1(row, col)								# Use your existing method to get the index
+			pixels[index] = color											# Set the color using the DotStar syntax
+	pixels.show()															# Update the LED display with the new colors
 
 def pixel_setup2(top_pixel, bottom_pixel, color):
 	for row in range(top_pixel[0], bottom_pixel[0] + 1):
 		for col in range(top_pixel[1], bottom_pixel[1] + 1):
 			index = get_led_index2(row, col)
-			grid.setPixelColor(index, color)
+			pixels[index] = color
+	pixels.show()
 
 def pixel_setup3(top_pixel, bottom_pixel, color):
 	for row in range(top_pixel[0], bottom_pixel[0] + 1):
 		for col in range(top_pixel[1], bottom_pixel[1] + 1):
 			index = get_led_index3(row, col)
-			grid.setPixelColor(index, color)
+			pixels[index] = color
+	pixels.show()
 
 
 """ Brightness control """
-def set_brightness(value):
-	grid.setBrightness(value)
+def set_brightness(value):													# Value should be between 0.0 (off) and 1.0 (max brightness)
+	pixels.brightness = value
 
 
 """ Turn off all LEDs """
-def clear_grid():
-	pixels_off = Color(0, 0, 0)
-	top_pixel = (0, 0)
-	bottom_pixel = (7, 31)
-
-	# Clear each panel
-	pixel_setup1(top_pixel, bottom_pixel, pixels_off)
-	pixel_setup2(top_pixel, bottom_pixel, pixels_off)
-	pixel_setup3(top_pixel, bottom_pixel, pixels_off)
+def clear_pixels():
+	pixels.fill((0, 0, 0))
+	pixels.show()
 
 
 """ Stop current animation gracefully """
 def stop_animation():
 	global animation_running												# Utilize the 'animation_running' variable.
 	animation_running = False												# Stop the animation by setting its running state to 'False'.
-	clear_grid()															# Ensure the grid is cleared when the animation stops.
-	grid.show()																# Show a cleared grid
-
+	clear_pixels()															# Ensure the grid is cleared when the animation stops.
+	pixels.show()															# Show a cleared grid
 
 """ Ensure animation will stop when 'Off' button is pressed or another animation is selected """
 def check_and_clear():
 		if not animation_running:
-			clear_grid()
-			grid.show()
+			clear_pixels()
+			pixels.show()
 			return True
 		return False
-
 
 
 # ======================================================================================================================================================== #
 # ===== LED ANIMATIONS =================================================================================================================================== #
 
 # Sequential left turn signal #
-def left_turn_signal(grid):
+def left_turn_signal(pixels):
 	global animation_running												# Utilize the 'animation_running' variable.
 	animation_running = True												# Start the animation.
 
-	set_brightness(30)														# Set brightness to an acceptable testing level.
-	pixel_color = Color(255, 70, 0)											# Define the color. (Orange)
+	set_brightness(0.3)														# Set brightness to an acceptable testing level.
+	pixel_color = [255, 70, 0]												# Define the color. (Orange)
 
 	while animation_running:
 		for col_start in range(31, -1, -1):									# Iterating over top-half of each column right to left (← ← ←).
@@ -148,30 +135,30 @@ def left_turn_signal(grid):
 			top_pixel = (0, col_start)										# Start at row 0, column 0.
 			bottom_pixel = (3, col_start)									# End at row 3, column 0.
 			pixel_setup1(top_pixel, bottom_pixel, pixel_color)				# Set and display color of area defined by `top_pixel` & `bottom_pixel` coordinates.
-			grid.show()														# Display LEDs.
-			time.sleep(0.015)												# How fast the columns light up (in milliseconds).
+			pixels.show()														# Display LEDs.
+			time.sleep(0.01)												# How fast the columns light up (in milliseconds).
 
 		if check_and_clear(): return
 		time.sleep(0.2)														# How long the LEDs stay ON before turning off.
-		clear_grid()														# Clear the grid before starting the sequence again.
-		grid.show()															# Display the cleared grid.
+		clear_pixels()														# Clear the grid before starting the sequence again.
+		pixels.show()															# Display the cleared grid.
 		if check_and_clear(): return
-		time.sleep(0.25)													# How long the LEDs stay OFF before starting sequence again.
+		time.sleep(0.01)													# How long the LEDs stay OFF before starting sequence again.
 
 	if check_and_clear(): return
-	clear_grid()															# Ensure the grid is cleared when the animation stops
-	grid.show()
+	clear_pixels()															# Ensure the grid is cleared when the animation stops
+	pixels.show()
 
 
 
 # ======================================================================================================================================================== #
 # Sequential right turn signal #
-def right_turn_signal(grid):
+def right_turn_signal(pixels):
 	global animation_running
 	animation_running = True
 
-	set_brightness(30)
-	pixel_color = Color(255, 70, 0)
+	set_brightness(0.5)
+	pixel_color = [255, 70, 0]
 
 	while animation_running:
 		for col_start in range(0, 32):										# Iterating left to right (→ → →)
@@ -179,29 +166,29 @@ def right_turn_signal(grid):
 			top_pixel = (0, col_start)
 			bottom_pixel = (3, col_start)
 			pixel_setup3(top_pixel, bottom_pixel, pixel_color)
-			grid.show()
+			pixels.show()
 			time.sleep(0.015)
 
 		if check_and_clear(): return
 		time.sleep(0.2)
-		clear_grid()
-		grid.show()
+		clear_pixels()
+		pixels.show()
 		time.sleep(0.25)
 
 	if check_and_clear(): return
-	clear_grid()
-	grid.show()
+	clear_pixels()
+	pixels.show()
 
 
 
 # ======================================================================================================================================================== #
 # Sequential brake lights #
-def sequential_brake_lights(grid):
+def sequential_brake_lights(pixels):
 	global animation_running
 	animation_running = True
 
-	set_brightness(30)
-	pixel_color = Color(255, 0, 0)
+	set_brightness(0.5)
+	pixel_color = [255, 70, 0]
 
 	if check_and_clear(): return
 	for col in range(32):
@@ -209,37 +196,37 @@ def sequential_brake_lights(grid):
 		# Left panel: iterate from right to left (← ← ←)
 		for row in range(8):
 			left_index = get_led_index1(row, 31 - col)
-			grid.setPixelColor(left_index, pixel_color)
+			pixels.setPixelColor(left_index, pixel_color)
 			if check_and_clear(): return
 		
 		# Right panel: iterate from left to right (→ → →)
 		for row in range(8):
 			right_index = get_led_index3(row, col)
-			grid.setPixelColor(right_index, pixel_color)
+			pixels.setPixelColor(right_index, pixel_color)
 			if check_and_clear(): return
 		
 		if check_and_clear(): return
-		grid.show()
+		pixels.show()
 		time.sleep(0.005)
 
 # ======================================================================================================================================================== #
 # Third brake light [3-3-1 flash] #
-def third_brake_light(grid):
+def third_brake_light(pixels):
 	global animation_running
 	animation_running = True
 
-	set_brightness(30)
-	pixel_color = Color(255, 0, 0)
+	set_brightness(0.5)
+	pixel_color = [255, 0, 0]
 
 	# -- Flash rapidly 3 times -- #
 	for _ in range(3):														# The underscore is a throwaway variable and is used for iterating/looping.
 		if check_and_clear(): return
 		pixel_setup2((0, 0), (7, 31), pixel_color)							# Alternate way to set pixel layout.
-		grid.show()
+		pixels.show()
 		time.sleep(0.1)														# How long LEDs are on during flashing sequence.
 		if check_and_clear(): return
-		clear_grid()
-		grid.show()
+		clear_pixels()
+		pixels.show()
 		time.sleep(0.1)														# How long LEDs are off during flashing sequence.
 		if check_and_clear(): return
 
@@ -247,93 +234,43 @@ def third_brake_light(grid):
 	for _ in range(3):
 		if check_and_clear(): return
 		pixel_setup2((0, 0), (7, 31), pixel_color)
-		grid.show()
+		pixels.show()
 		time.sleep(0.3)
 		if check_and_clear(): return
-		clear_grid()
-		grid.show()
+		clear_pixels()
+		pixels.show()
 		time.sleep(0.3)
 		if check_and_clear(): return
 
 	# -- Remain constantly lit -- #
 	if check_and_clear(): return
 	pixel_setup1((0, 0), (7, 31), pixel_color)
-	grid.show()
+	pixels.show()
 
 
 
 # ======================================================================================================================================================== #
 # Front Parking lights #
-def front_parking_lights(grid):
+def front_parking_lights(pixels):
 	global animation_running
 	animation_running = True
 
-	set_brightness(10)
-	pixel_color = Color(255, 100, 0)
+	set_brightness(0.2)
+	pixel_color = [255, 70, 0]
 	pixel_setup1((0, 0), (7, 31), pixel_color)
 	pixel_setup3((0, 0), (7, 31), pixel_color)
-	grid.show()
+	pixels.show()
 
 
 
 # ======================================================================================================================================================== #
 # Rear Parking lights #
-def rear_parking_lights(grid):
+def rear_parking_lights(pixels):
 	global animation_running
 	animation_running = True
 
-	set_brightness(10)
-	pixel_color = Color(255, 0, 0)
+	set_brightness(0.2)
+	pixel_color = [255, 0, 0]
 	pixel_setup1((0, 0), (7, 31), pixel_color)
 	pixel_setup3((0, 0), (7, 31), pixel_color)
-	grid.show()
-
-
-
-# ======================================================================================================================================================== #
-# Emergency lights #
-def emergency_lights(grid):
-	global animation_running
-	animation_running = True
-
-	set_brightness(30)
-
-	BLUE = Color(0, 0, 255)
-	RED = Color(255, 0, 0)
-
-	left_half = (0, 15)														# Columns 0 through 15 for the left half.
-	right_half = (16, 31)													# Columns 16 through 31 for the right half.
-
-	try:
-		while animation_running:
-			# Flash the left half blue
-			for _ in range(3):												# Flash 3 times.
-				for row in range(8):										# 8 rows.
-					for col in range(left_half[0], left_half[1] + 1):		# Left half columns.
-						index = get_led_index1(row, col)
-						grid.setPixelColor(index, BLUE)
-				grid.show()
-				time.sleep(0.08)											# Flash duration.
-
-				clear_grid()
-				grid.show()
-				time.sleep(0.08)											# Pause between flashes.
-
-			# Flash the right half red
-			for _ in range(3):												# Flash 3 times.
-				for row in range(8):
-					for col in range(right_half[0], right_half[1] + 1):		# Right half columns.
-						index = get_led_index1(row, col)
-						grid.setPixelColor(index, RED)
-				grid.show()
-				time.sleep(0.08)
-
-				clear_grid()
-				grid.show()
-				time.sleep(0.08)
-
-	finally:
-		clear_grid()
-		grid.show()
-
-	stop_animation()
+	pixels.show()
