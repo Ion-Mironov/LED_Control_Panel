@@ -209,6 +209,8 @@ def sequential_brake_lights(pixels):
 		pixels.show()
 		time.sleep(0.01)
 
+
+
 # ======================================================================================================================================================== #
 # Third brake light [3-3-1 flash] #
 def third_brake_light(pixels):
