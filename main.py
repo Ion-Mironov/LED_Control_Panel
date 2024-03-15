@@ -39,7 +39,6 @@ class ControlPanel(QObject):
 		self.current_animation_id = animation_id
 		self.animation_thread = threading.Thread(target = animation_function, args = (pixels,))
 		self.animation_thread.start()
-
 		self.animationStateChanged.emit(animation_id, True)					# Emit signal to update the state of the new button to "on"
 
 
