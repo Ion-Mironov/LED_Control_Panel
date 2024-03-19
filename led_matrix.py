@@ -126,7 +126,7 @@ def left_turn_signal(pixels):
 	animation_running = True												# Start the animation.
 
 	pixel_color = (255, 70, 0)												# Define the color. (Orange)
-	set_brightness(0.3)														# Set brightness to an acceptable testing level.
+	set_brightness(0.2)														# Set brightness to an acceptable testing level.
 
 	while animation_running:
 		for col_start in range(31, -1, -1):									# Iterating over top-half of each column right to left (← ← ←).
