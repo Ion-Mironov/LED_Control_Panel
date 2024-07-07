@@ -1,6 +1,6 @@
-# ================================================================================================================================================================= #
-# Ensure ground wire (white) is connected to physical pin 6, clock wire (blue) is connected to physical pin 23, and data wire (green) is connected to physical pin 19
-# ================================================================================================================================================================= #
+# =================================================================================================================================================================== #
+# Ensure ground wire (white) is connected to physical pin 6, data wire (green) is connected to physical pin 19, and clock wire (blue) is connected to physical pin 23 #
+# =================================================================================================================================================================== #
 
 
 import board
@@ -9,7 +9,7 @@ import time
 
 
 num_pixels = 768
-pixels = dotstar.DotStar(board.SCK, board.MOSI, num_pixels, brightness=1.0, auto_write=False)
+pixels = dotstar.DotStar(board.SCK, board.MOSI, num_pixels, brightness=1.0, auto_write=False)		# If auto_write=False, `.show()` must be called explicitly.
 
 
 """ Set the default state of all animations to 'False' """

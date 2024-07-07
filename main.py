@@ -10,7 +10,7 @@ from PySide6.QtQml import QQmlApplicationEngine
 
 
 class ControlPanel(QObject):
-	animationStateChanged = Signal(int, bool)								# Signal to communicate animation state changes
+	animationStateChanged = Signal(int, bool)								# Signal used to communicate animation state changes
 
 	def __init__(self):
 		super().__init__()
