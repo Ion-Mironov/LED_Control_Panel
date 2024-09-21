@@ -1,5 +1,3 @@
-#### Must run this script with `sudo` ####
-
 import sys
 import threading
 from pathlib import Path

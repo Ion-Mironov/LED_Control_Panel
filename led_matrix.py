@@ -272,9 +272,57 @@ def rear_parking_lights(pixels):
 	global animation_running
 	animation_running = True
 
-	pixel_color = (255, 0, 0)
 	set_brightness(0.1)
+	color = (255, 0, 0)
 
-	pixel_setup1((0, 0), (7, 31), pixel_color)
-	pixel_setup3((0, 0), (7, 31), pixel_color)
+
+	# --- Original rear parking lights code --- #
+	# pixel_setup1((0, 0), (7, 31), color)
+	# pixel_setup3((0, 0), (7, 31), color)
+
+	# pixels.show()
+
+
+	# --- Multiple rectangles code --- #
+	""" Left Panel """
+	top_pixel1 = (0, 1)
+	bottom_pixel1 = (3, 6)
+	pixel_setup1(top_pixel1, bottom_pixel1, color)
+
+	top_pixel2 = (0, 9)
+	bottom_pixel2 = (3, 14)
+	color = (255, 0, 0)
+	pixel_setup1(top_pixel2, bottom_pixel2, color)
+
+	top_pixel3 = (0, 17)
+	bottom_pixel3 = (3, 22)
+	color = (255, 0, 0)
+	pixel_setup1(top_pixel3, bottom_pixel3, color)
+
+	top_pixel4 = (0, 25)
+	bottom_pixel4 = (3, 30)
+	color = (255, 0, 0)
+	pixel_setup1(top_pixel4, bottom_pixel4, color)
+
+
+	""" Right Panel """
+	top_pixel1 = (0, 1)
+	bottom_pixel1 = (3, 6)
+	pixel_setup3(top_pixel1, bottom_pixel1, color)
+
+	top_pixel2 = (0, 9)
+	bottom_pixel2 = (3, 14)
+	color = (255, 0, 0)
+	pixel_setup3(top_pixel2, bottom_pixel2, color)
+
+	top_pixel3 = (0, 17)
+	bottom_pixel3 = (3, 22)
+	color = (255, 0, 0)
+	pixel_setup3(top_pixel3, bottom_pixel3, color)
+
+	top_pixel4 = (0, 25)
+	bottom_pixel4 = (3, 30)
+	color = (255, 0, 0)
+	pixel_setup3(top_pixel4, bottom_pixel4, color)
+
 	pixels.show()
