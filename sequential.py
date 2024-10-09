@@ -35,4 +35,4 @@ except KeyboardInterrupt:
 	# When Ctrl + C is pressed, clear all LEDs
 	pixels.fill((0, 0, 0))		# Turn off all LEDs
 	pixels.show()
-	print("LEDs turned off. Exiting program.")
+	print("Sequential animation stopped and LEDs turned off.")

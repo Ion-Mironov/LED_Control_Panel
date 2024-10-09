@@ -13,13 +13,13 @@ def comet_trail(color, tail_length, wait):
 	pixels.fill((0, 0, 0))
 	pixels.show()
 
-	for i in range(num_pixels + tail_length):  # Iterate through all LEDs + tail length for the trailing effect
+	for i in range(num_pixels + tail_length):				# Iterate through all LEDs + tail length for the trailing effect
 		# Turn off all LEDs before lighting the next comet frame
 		pixels.fill((0, 0, 0))
 
 		# Create the comet effect by lighting up each pixel and applying a fade to the tail
 		for j in range(tail_length):
-			if i - j < num_pixels and i - j >= 0:  # Check that we're not out of bounds
+			if i - j < num_pixels and i - j >= 0:			# Check that it's not out of bounds
 				# Calculate the brightness factor for the tail (gradually fade from full brightness to dim)
 				brightness_factor = 1 - (j / tail_length)
 				faded_color = (
@@ -27,15 +27,15 @@ def comet_trail(color, tail_length, wait):
 					int(color[1] * brightness_factor),
 					int(color[2] * brightness_factor)
 				)
-				pixels[i - j] = faded_color  # Set the color for the current pixel in the tail
+				pixels[i - j] = faded_color					# Set the color for the current pixel in the tail
 
 		pixels.show()
 		time.sleep(wait)
 
 # Define the comet color, tail length, and wait time between steps
-color = (255, 0, 0)		# Red comet
-tail_length = 50		# The length of the comet's tail (how many LEDs fade behind it)
-wait = 0.002			# 200 milliseconds between lighting each step of the comet
+color = (255, 0, 0)			# Red comet
+tail_length = 50			# The length of the comet's tail (how many LEDs fade behind it)
+wait = 0.002				# 200 milliseconds between lighting each step of the comet
 
 try:
 	while True:
