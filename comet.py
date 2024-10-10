@@ -33,7 +33,7 @@ def comet_trail(color, tail_length, wait):
 		time.sleep(wait)
 
 # Define the comet color, tail length, and wait time between steps
-color = (255, 0, 0)			# Red comet
+color = (255, 0, 0)			# Comet color (Purple = 47, 1, 77) (Amber = 255, 77, 0)
 tail_length = 50			# The length of the comet's tail (how many LEDs fade behind it)
 wait = 0.002				# 200 milliseconds between lighting each step of the comet
 
