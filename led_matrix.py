@@ -1,5 +1,5 @@
 # ================================================================================================================================================ #
-# Ground wire (white) connects to physical pin 6, data wire (green) connects to physical pin 19, and clock wire (blue) connects to physical pin 23 #
+# Ground wire (white) connects to physical pin 6, signal wire (green) connects to physical pin 19, and clock wire (blue) connects to physical pin 23 #
 # ================================================================================================================================================ #
 
 
